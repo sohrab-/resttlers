@@ -1,0 +1,52 @@
+{
+  "name": "resttlers",
+  "version": "1.0.0",
+  "description": "The Resttlers",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js --exec babel-node | pino-pretty --colorize",
+    "build": "babel src --out-dir dist --copy-files --source-maps",
+    "serve": "node dist/index.js",
+    "lint": "eslint src/* test/*",
+    "lint-fix": "eslint --fix src/* test/*",
+    "test": "mocha --exit --require @babel/register test/**/*.js",
+    "create-nyc-report-dir": "node -e 'const fs = require(\"fs\"); if (!fs.existsSync(\".nyc_output\")) fs.mkdirSync(\".nyc_output\");'",
+    "coverage-show": "npm run create-nyc-report-dir && nyc npm run test",
+    "coverage": "npm run create-nyc-report-dir && nyc check-coverage npm run test",
+    "check": "npm run lint && npm run test && npm run coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sohrab-/resttlers.git"
+  },
+  "author": "sohrab",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "fastify": "^2.2.0",
+    "fastify-sensible": "^2.0.1",
+    "pino": "^5.11.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "babel-eslint": "^10.0.1",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "mocha": "^6.1.3",
+    "nodemon": "^1.18.11",
+    "nyc": "^13.3.0",
+    "pino-pretty": "^2.6.0",
+    "prettier": "^1.17.0",
+    "sinon": "^7.3.1"
+  }
+}
