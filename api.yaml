@@ -1,0 +1,402 @@
+openapi: "3.0.0"
+
+info:
+  title: The Resttlers API
+  version: "1.0.0"
+  
+
+servers:
+  - url: https://xxx/api
+
+paths:
+
+  /settlements:
+    post:
+      summary: Create a Settlement
+      description: |
+        **Take note of the `apiKey` in the response. It will never be displayed again.**
+      operationId: createSettlement
+      tags:
+        - Settlement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Settlement"
+            example: 
+              name: The Fumbles
+              leader: Sohrab
+      responses:
+        '201':
+          description: The settlement was successfully established
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settlement"
+              example: 
+                id: xxxxx
+                name: The Fumbles
+                leader: Sohrab
+                apiKey: 00000000-0000-0000-0000-000000000000
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    get:
+      summary: Get Settlements
+      operationId: getSettlements
+      tags:
+        - Settlement
+      parameters: 
+        - name: name
+          in: query
+          description: Filter results to partially match the settlement name
+          schema:
+            type: string
+        - name: leader
+          in: query
+          description: Filter results to partially match the settlement leader
+          schema:
+            type: string
+      responses:
+        '200':
+          description: All matching settlements are returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settlements"
+              example: 
+                size: 1
+                items:
+                - id: xxxxx
+                  name: The Fumbles
+                  leader: Sohrab
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+          
+  /settlements/{settlementId}:
+    parameters:
+      - name: settlementId
+        in: path
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Settlement
+      operationId: getSettlement
+      tags:
+        - Settlement
+      responses:
+        '200':
+          description: Settlement found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settlement"
+              example: 
+                id: xxxxx
+                name: The Fumbles
+                leader: Sohrab
+                resources:
+                  - tree: 12
+                    stone: 11
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  
+  /settlements/{settlementId}/buildingTypes:
+    parameters:
+      - name: settlementId
+        in: path
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Building Types
+      description: Only building types that are available to the settlement will be returned.
+      operationId: getBuildingTypes
+      tags:
+        - Settlement
+      responses:
+        '200':
+          description: All available building types are returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuildingTypes"
+              example: 
+                size: 1
+                items:
+                - id: woodcutter
+                  cost:
+                    - plank: 2
+                  consumes:
+                    - tree
+                  produces:
+                    - lumber
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  
+  /settlements/{settlementId}/buildings:
+    parameters:
+      - name: settlementId
+        in: path
+        schema:
+          type: string
+        required: true
+    post:
+      summary: Construct a Building in the Settlement
+      operationId: createBuilding
+      tags:
+        - Building
+      security:
+        - ApiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Building"
+            example: 
+              type: sawmill
+      responses:
+        '201':
+          description: The building was successfully established
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Building"
+              example: 
+                id: xxxxx
+                type: sawmill
+                status: ready
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    get:
+      summary: Get Buildings
+      operationId: getBuildings
+      tags:
+        - Building
+      parameters: 
+        - name: type
+          in: query
+          description: Only return buildings matching the given building type
+          schema:
+            $ref: "#/components/schemas/BuildingTypeField"
+        - name: status
+          in: query
+          description: Only return buildings matching the given status
+          schema:
+            type: string
+      responses:
+        '200':
+          description: All matching buildings are returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Buildings"
+              example: 
+                size: 1
+                items:
+                - id: xxxxx
+                  type: sawmill
+                  status: ready
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+        
+  
+  /settlements/{settlementId}/buildings/{buildingId}:
+    parameters:
+      - name: settlementId
+        in: path
+        schema:
+          type: string
+        required: true
+      - name: buildingId
+        in: path
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Building
+      operationId: getBuilding
+      tags:
+        - Building
+      responses:
+        '200':
+          description: Building found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settlement"
+              example: 
+                id: xxxxx
+                type: sawmill
+                status: waiting
+                statusReason: "Insufficient resources: plank"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    patch:
+      summary: Update Building
+      operationId: updateBuilding
+      description: Currently only the building status can be changed between `disabled` and `ready`.
+      tags:
+        - Building
+      security:
+        - ApiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Building"
+            example: 
+              status: disabled
+      responses:
+        '200':
+          description: Building updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Building"
+              example: 
+                id: xxxxx
+                type: sawmill
+                status: disabled
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    delete:
+      summary: Destroy Building
+      operationId: deleteBuilding
+      description: Currently only the building status can be changed between `disabled` and `ready`.
+      tags:
+        - Building
+      security:
+        - ApiKey: []
+      responses:
+        '204':
+          description: Building destroyed
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+components:
+  securitySchemes:
+    ApiKey:
+      name: API-Key
+      type: apiKey
+      in: header
+      description: The API key corresponding to the settlement
+  schemas:
+    Building:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the building within the settlement
+        type:
+          $ref: "#/components/schemas/BuildingTypeField"
+        status:
+          type: string
+          description: The current status of the building
+          enum: 
+            - ready
+            - working
+            - waiting
+            - disabled
+        statusReason:
+          type: string
+          description: The reason for why the building is in its current status. This is particularly useful for `waiting` status.
+      required: 
+        - type
+    Buildings:
+      type: object
+      properties:
+        size:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Building"
+    BuildingType:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of this building type
+        cost:
+          type: object
+          description: A map of resources and their quantity required for constructing this building
+        consumes:
+          type: array
+          description: The resources that the building requires
+          items:
+            $ref: "#/components/schemas/ResourceField"
+        produces:
+          type: array
+          description: The resources that the building outputs
+          items:
+            $ref: "#/components/schemas/ResourceField"
+    BuildingTypeField:
+      type: string
+      description: The building type
+      enum: 
+        - quarry
+        - woodcutter
+        - forrester
+        # TODO 
+    BuildingTypes:
+      type: object
+      properties:
+        size:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildingType"
+    Error:
+      type: object
+      properties:
+        errorType:
+          type: string
+          example: BadRequest
+        errorDescription:
+          type: string
+          example: This is a terrible request!
+    ResourceField:
+      type: string
+      description: A resource that may be consumed or produced by a building
+      enum:
+        - stoneDeposit
+        - stone
+        - tree
+        - lumber
+        # TODO
+    Settlement:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of this settlement. Use it in the URL path.
+        name:
+          type: string
+          description: Human-friendly name for the settlement
+        leader:
+          type: string
+          description: The name of the settlement's leader. That means you!
+        apiKey:
+          type: string
+          description: The API key to be used in the header when interacting with this settlement
+      required: 
+        - name
+        - leader
+    Settlements:
+      type: object
+      properties:
+        size:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Settlement"
+  responses:
+    ErrorResponse:
+      description: An error has occurred
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
