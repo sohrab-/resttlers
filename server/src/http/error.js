@@ -1,32 +1,12 @@
 /**
  * Handles not found errors in fastify
- * @param {Object} error Error obj
  * @param {Object} request Fastify request
  * @param {Object} reply Fastify reply
  */
-export function notFoundHandler(error, request, reply) {
+export function notFoundHandler(request, reply) {
   reply.send({
-    errorType: "ResourceNotFoundError",
-    errorDescription:
-      error && error.type && error.message
-        ? `${error.type}: ${error.message}`
-        : "Resource not found"
-  });
-}
-
-/**
- * Handles bad request errors in fastify
- * @param {Object} error Error obj
- * @param {Object} request Fastify request
- * @param {Object} reply Fastify reply
- */
-export function badRequestHandler(error, request, reply) {
-  reply.send({
-    errorType: "BadRequestError",
-    errorDescription:
-      error && error.type && error.message
-        ? `${error.type}: ${error.message}`
-        : "Bad request."
+    errorType: "NotFound",
+    errorDescription: "Resource not found"
   });
 }
 
@@ -54,13 +34,24 @@ export function defaultErrorHandler(error, request, reply) {
 
   // build error response
   if (res.statusCode === 400) {
-    badRequestHandler(error, request, reply);
+    reply.send({
+      errorType: "BadRequest",
+      errorDescription:
+        error && error.type && error.message
+          ? `${error.type}: ${error.message}`
+          : "Bad request"
+    });
     return;
   }
 
-  // build error response
   if (res.statusCode === 404) {
-    notFoundHandler(error, request, reply);
+    reply.send({
+      errorType: "NotFound",
+      errorDescription:
+        error && error.type && error.message
+          ? `${error.type}: ${error.message}`
+          : "Resource not found"
+    });
     return;
   }
 
