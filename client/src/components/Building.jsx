@@ -5,6 +5,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Badge from "@material-ui/core/Badge";
 import Yellow from "@material-ui/core/colors/yellow";
 import Red from "@material-ui/core/colors/red";
+import Grey from "@material-ui/core/colors/grey";
+import Green from "@material-ui/core/colors/green";
+import Blue from "@material-ui/core/colors/blue";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 
 import ResourceIcon from "./ResourceIcon";
@@ -82,17 +85,32 @@ const styles = theme => ({
   tooltipText: {
     textAlign: "center"
   },
-  buildQueued: {
+  workingTooltip: {
+    color: Green[500]
+  },
+  buildQueuedImage: {
     opacity: 0.4
   },
-  underConstruction: {
+  buildQueuedTooltip: {
+    color: Grey[500]
+  },
+  underConstructionImage: {
     animation: "blink normal 2s infinite ease-in-out"
   },
-  waiting: {
+  underConstructionTooltip: {
+    color: Blue[500]
+  },
+  waitingImage: {
     filter: "drop-shadow(0 0 10px darkorange)"
   },
-  disabled: {
+  waitingTooltip: {
+    color: Yellow[700]
+  },
+  disabledImage: {
     filter: "drop-shadow(0 0 10px red)"
+  },
+  disabledTooltip: {
+    color: Red[500]
   },
   statusReasonTooltip: {
     color: Yellow[500]
@@ -107,7 +125,10 @@ const component = props => {
         <React.Fragment>
           <div className={classes.tooltipText}>
             <b>{BUILDING_DISPLAYS[type]}</b>
-            <br />({BUILDING_STATUS_DISPLAYS[status]})
+            <br />
+            <span className={classes[`${status}Tooltip`]}>
+              ({BUILDING_STATUS_DISPLAYS[status]})
+            </span>
             {statusReason && (
               <span className={classes.statusReasonTooltip}>
                 <br />
@@ -126,7 +147,10 @@ const component = props => {
         </React.Fragment>
       }
     >
-      <img src={BUILDING_IMAGES[type]} className={classes[status] || {}} />
+      <img
+        src={BUILDING_IMAGES[type]}
+        className={classes[`${status}Image`] || {}}
+      />
     </Tooltip>
   );
 };
