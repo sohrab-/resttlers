@@ -156,8 +156,8 @@ paths:
             example: 
               type: sawmill
       responses:
-        '201':
-          description: The building was successfully established
+        '202':
+          description: The building has been queued for construction
           content:
             application/json:
               schema:

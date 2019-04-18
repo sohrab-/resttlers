@@ -86,7 +86,7 @@ export default class SettlementService {
     withSettlement(request, reply, settlement => {
       try {
         const building = settlement.createBuilding(request.body.type);
-        reply.send(mapBuilding(building));
+        reply.code(202).send(mapBuilding(building));
       } catch (e) {
         reply.badRequest(e.message);
       }
@@ -94,7 +94,9 @@ export default class SettlementService {
   }
 
   getBuildings(request, reply) {
-    withSettlement(request, reply, settlement => {});
+    withSettlement(request, reply, settlement => {
+      // TODO
+    });
   }
 
   withBuilding(request, reply, callback) {
