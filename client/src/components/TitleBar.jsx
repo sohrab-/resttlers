@@ -4,12 +4,14 @@ import { withStyles } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Tooltip from "@material-ui/core/Tooltip";
 import InputBase from "@material-ui/core/InputBase";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import InfoIcon from "@material-ui/icons/Info";
 import HelpIcon from "@material-ui/icons/Help";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import About from "./About";
 
 const styles = theme => ({
@@ -108,12 +110,21 @@ class TitleBar extends React.Component {
               />
             </div>
             <div className={classes.grow} />
-            <IconButton color="inherit">
-              <HelpIcon />
-            </IconButton>
-            <IconButton color="inherit" onClick={this.toggleAboutDialog}>
-              <InfoIcon />
-            </IconButton>
+            <Tooltip title="API Specification" aria-label="API Specification">
+              <IconButton color="inherit">
+                <LibraryBooksIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Help" aria-label="Help">
+              <IconButton color="inherit">
+                <HelpIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="About" aria-label="About">
+              <IconButton color="inherit" onClick={this.toggleAboutDialog}>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
             <About
               open={this.state.aboutDialogOpen}
               onClose={this.toggleAboutDialog}

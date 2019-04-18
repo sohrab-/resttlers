@@ -40,7 +40,7 @@ const component = props => {
       <Chip
         className={classes.chip}
         label={amount}
-        avatar={<ResourceIcon name={name} />}
+        icon={<ResourceIcon name={name} />}
         variant="outlined"
       />
     </Tooltip>
