@@ -6,6 +6,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import InputBase from "@material-ui/core/InputBase";
+import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
@@ -38,11 +39,10 @@ const styles = theme => ({
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 0.25)
     },
-    marginRight: theme.spacing.unit * 2,
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing.unit * 3,
+      marginLeft: theme.spacing.unit,
       width: "auto"
     }
   },
@@ -66,8 +66,11 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 10,
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: 200
+    [theme.breakpoints.up("sm")]: {
+      width: 120,
+      "&:focus": {
+        width: 200
+      }
     }
   }
 });
@@ -84,7 +87,7 @@ class TitleBar extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, onSearch } = this.props;
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -102,21 +105,28 @@ class TitleBar extends React.Component {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Search…"
+                placeholder="Search..."
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput
+                }}
+                onChange={event => {
+                  onSearch(event.target.value);
                 }}
               />
             </div>
             <div className={classes.grow} />
             <Tooltip title="API Specification" aria-label="API Specification">
-              <IconButton color="inherit">
+              <IconButton target="_blank" href="/apidocs" color="inherit">
                 <LibraryBooksIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Help" aria-label="Help">
-              <IconButton color="inherit">
+              <IconButton
+                target="_blank"
+                href="https://github.com/sohrab-/resttlers/wiki/How-to-Play"
+                color="inherit"
+              >
                 <HelpIcon />
               </IconButton>
             </Tooltip>
@@ -137,7 +147,8 @@ class TitleBar extends React.Component {
 }
 
 TitleBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onSearch: PropTypes.func
 };
 
 export default withStyles(styles)(TitleBar);

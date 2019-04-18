@@ -42,6 +42,8 @@ const BUILDING_DISPLAYS = {
 };
 
 const BUILDING_STATUS_DISPLAYS = {
+  buildQueued: "Queued for Construction",
+  underConstruction: "Under Construction",
   ready: "Ready",
   working: "Working",
   waiting: "Waiting",
@@ -66,17 +68,31 @@ const BUILDING_IMAGES = {
 };
 
 const styles = theme => ({
+  "@keyframes blink": {
+    "0%": {
+      opacity: 1
+    },
+    "50%": {
+      opacity: 0.4
+    },
+    "100%": {
+      opacity: 1
+    }
+  },
   tooltipText: {
     textAlign: "center"
   },
-  badgeWaiting: {
-    background: Yellow[500]
+  buildQueued: {
+    opacity: 0.4
   },
-  badgeDisabled: {
-    right: 10,
-    width: 10,
-    height: 10,
-    background: Red[500]
+  underConstruction: {
+    animation: "blink normal 2s infinite ease-in-out"
+  },
+  waiting: {
+    filter: "drop-shadow(0 0 10px darkorange)"
+  },
+  disabled: {
+    filter: "drop-shadow(0 0 10px red)"
   },
   statusReasonTooltip: {
     color: Yellow[500]
@@ -84,13 +100,13 @@ const styles = theme => ({
 });
 
 const component = props => {
-  const { classes, name, status, statusReason, consumes, produces } = props;
+  const { classes, type, status, statusReason, consumes, produces } = props;
   return (
     <Tooltip
       title={
         <React.Fragment>
           <div className={classes.tooltipText}>
-            <b>{BUILDING_DISPLAYS[name]}</b>
+            <b>{BUILDING_DISPLAYS[type]}</b>
             <br />({BUILDING_STATUS_DISPLAYS[status]})
             {statusReason && (
               <span className={classes.statusReasonTooltip}>
@@ -100,9 +116,8 @@ const component = props => {
             )}
             <br />
             <br />
-            {consumes.map(resource => (
-              <ResourceIcon name={resource} />
-            ))}
+            {consumes &&
+              consumes.map(resource => <ResourceIcon name={resource} />)}
             <ArrowRightIcon />
             {produces.map(resource => (
               <ResourceIcon name={resource} />
@@ -111,26 +126,14 @@ const component = props => {
         </React.Fragment>
       }
     >
-      <Badge
-        variant="dot"
-        classes={{
-          badge:
-            status === "disabled"
-              ? classes.badgeDisabled
-              : status === "waiting"
-              ? classes.badgeWaiting
-              : {}
-        }}
-      >
-        <img src={BUILDING_IMAGES[name]} />
-      </Badge>
+      <img src={BUILDING_IMAGES[type]} className={classes[status] || {}} />
     </Tooltip>
   );
 };
 
 component.propTypes = {
   classes: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   statusReason: PropTypes.string.isRequired,
   conumes: PropTypes.arrayOf(PropTypes.string).isRequired,
