@@ -12,6 +12,11 @@ const SORT_OPTIONS = {
   creationTime: "Sort by created first"
 };
 
+const filterSettlement = search => settlement =>
+  settlement.id.toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+  settlement.name.toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+  settlement.leader.toLowerCase().indexOf(search.toLowerCase()) > -1;
+
 const styles = theme => ({
   sortSelect: {
     marginTop: 0,
@@ -26,8 +31,22 @@ const styles = theme => ({
 
 class Board extends Component {
   state = {
-    sort: "creationTime"
+    sort: "creationTime",
+    pinned: ""
   };
+
+  sortSettlements = (a, b) =>
+    a.id === this.state.pinned
+      ? -1
+      : b.id === this.state.pinned
+      ? 1
+      : this.state.sort === "creationTime"
+      ? a.creationTime > b.creationTime
+        ? 1
+        : -1
+      : a.score < b.score
+      ? 1
+      : -1;
 
   render() {
     const { classes, search, buildingTypes, settlements } = this.props;
@@ -58,25 +77,9 @@ class Board extends Component {
         </Select>
         <Grid container spacing={24}>
           {settlements
-            .filter(
-              settlement =>
-                settlement.id.toLowerCase().indexOf(search.toLowerCase()) >
-                  -1 ||
-                settlement.name.toLowerCase().indexOf(search.toLowerCase()) >
-                  -1 ||
-                settlement.leader.toLowerCase().indexOf(search.toLowerCase()) >
-                  -1
-            )
+            .filter(filterSettlement(search))
             .slice()
-            .sort((a, b) =>
-              this.state.sort === "creationTime"
-                ? a.creationTime > b.creationTime
-                  ? 1
-                  : -1
-                : a.score < b.score
-                ? 1
-                : -1
-            )
+            .sort(this.sortSettlements)
             .map(settlement => {
               const { id, ...others } = settlement;
               return (
@@ -85,6 +88,10 @@ class Board extends Component {
                     settlementId={id}
                     {...others}
                     buildingTypes={buildingTypes}
+                    pinned={id === this.state.pinned}
+                    onPin={id => {
+                      this.setState({ pinned: id });
+                    }}
                   />
                 </Grid>
               );

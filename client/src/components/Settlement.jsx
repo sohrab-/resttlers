@@ -53,7 +53,9 @@ const component = props => {
     score,
     resources,
     buildings,
-    buildingTypes
+    buildingTypes,
+    pinned,
+    onPin
   } = props;
   return (
     <Card>
@@ -70,8 +72,8 @@ const component = props => {
         subheader={`Leader: ${leader}`}
         action={
           <Tooltip title="Pin to the top" aria-label="Pin to the top">
-            <IconButton>
-              <LockOpenIcon />
+            <IconButton onClick={() => onPin(pinned ? "" : settlementId)}>
+              {pinned ? <LockIcon /> : <LockOpenIcon />}
             </IconButton>
           </Tooltip>
         }
@@ -119,7 +121,9 @@ component.propTypes = {
   score: PropTypes.number.isRequired,
   resources: PropTypes.object.isRequired,
   buildings: PropTypes.arrayOf(PropTypes.object).isRequired,
-  buildingTypes: PropTypes.object.isRequired
+  buildingTypes: PropTypes.object.isRequired,
+  pinned: PropTypes.bool.isRequired,
+  onPin: PropTypes.func
 };
 
 export default withStyles(styles)(component);
