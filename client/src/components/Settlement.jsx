@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import Divider from "@material-ui/core/Divider";
@@ -19,8 +19,8 @@ const styles = theme => ({
   section: {
     margin: theme.spacing.unit * 2
   },
-  objectiveIcon: {
-    verticalAlign: "bottom !important"
+  objective: {
+    marginTop: theme.spacing.unit
   }
 });
 
@@ -43,14 +43,16 @@ const component = props => {
           <Typography variant="h6">{name}</Typography>
         </Tooltip>
         <Typography variant="subtitle2">Leader: {leader}</Typography>
-      </div>
-      <Divider />
-      <Typography className={classes.section}>
         <Tooltip title="Objective" aria-label="Objective" placement="left">
-          <FlagIcon className={classes.objectiveIcon} />
-        </Tooltip>{" "}
-        {objective}
-      </Typography>
+          <Chip
+            label={objective}
+            icon={<FlagIcon />}
+            color="secondary"
+            variant="outlined"
+            className={classes.objective}
+          />
+        </Tooltip>
+      </div>
       <Divider />
       <div className={classes.section}>
         <Resource name="stone" amount={3} />
