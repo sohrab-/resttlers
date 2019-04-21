@@ -28,6 +28,7 @@ const styles = theme => ({
     fontFamily: "'Condiment', cursive",
     marginTop: 15,
     display: "none",
+    overflow: "visible",
     [theme.breakpoints.up("sm")]: {
       display: "block"
     }
