@@ -23,6 +23,26 @@ const RESOURCE_DISPLAYS = {
   goldCoin: "Gold Coin"
 };
 
+const RESOURCE_ORDER = {
+  stoneDeposit: 0,
+  stone: 1,
+  tree: 2,
+  lumber: 3,
+  plank: 4,
+  water: 5,
+  grain: 6,
+  flour: 7,
+  bread: 8,
+  fish: 9,
+  meat: 10,
+  coal: 11,
+  goldOre: 12,
+  goldBar: 13,
+  goldCoin: 14
+};
+
+export const sortResources = (a, b) => RESOURCE_ORDER[a] - RESOURCE_ORDER[b];
+
 const styles = theme => ({
   chip: {
     justifyContent: "center",

@@ -14,8 +14,8 @@ import StarIcon from "@material-ui/icons/Star";
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 
-import Resource from "./Resource";
-import Building from "./Building";
+import Resource, { sortResources } from "./Resource";
+import Building, { sortBuilding } from "./Building";
 
 import HeadquartersImage from "../images/headquarters.png";
 
@@ -93,19 +93,23 @@ const component = props => {
           </Tooltip>
         </div>
         <div className={classes.section}>
-          {Object.entries(resources).map(([name, amount]) => (
-            <Resource name={name} amount={amount} />
-          ))}
+          {Object.entries(resources)
+            .sort((a, b) => sortResources(a[0], b[0]))
+            .map(([name, amount]) => (
+              <Resource name={name} amount={amount} />
+            ))}
         </div>
         <Divider />
         <div className={classes.section}>
-          {buildings.map(building => (
-            <Building
-              {...building}
-              consumes={buildingTypes[building.type].consumes}
-              produces={buildingTypes[building.type].produces}
-            />
-          ))}
+          {buildings
+            .sort((a, b) => 10 * sortBuilding(a.type, b.type))
+            .map(building => (
+              <Building
+                {...building}
+                consumes={buildingTypes[building.type].consumes}
+                produces={buildingTypes[building.type].produces}
+              />
+            ))}
         </div>
       </CardContent>
     </Card>

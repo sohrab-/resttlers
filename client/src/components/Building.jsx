@@ -70,6 +70,25 @@ const BUILDING_IMAGES = {
   goldMint: GoldMintImage
 };
 
+const BUILDING_ORDER = {
+  quarry: 0,
+  woodcutter: 1,
+  forester: 2,
+  sawmill: 3,
+  waterworks: 4,
+  farm: 5,
+  mill: 6,
+  bakery: 7,
+  fishery: 8,
+  hunter: 9,
+  coalMine: 10,
+  goldMine: 11,
+  goldSmelting: 12,
+  goldMine: 13
+};
+
+export const sortBuilding = (a, b) => BUILDING_ORDER[a] - BUILDING_ORDER[b];
+
 const styles = theme => ({
   "@keyframes blink": {
     "0%": {
