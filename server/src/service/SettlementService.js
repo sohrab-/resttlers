@@ -35,7 +35,7 @@ export default class SettlementService {
   getSettlements(request, reply) {
     const settlements = this.game.getSettlements(request.query);
     reply.send({
-      size: items.length,
+      size: settlements.length,
       items: settlements.map(mapSettlement)
     });
   }
@@ -52,13 +52,13 @@ export default class SettlementService {
   }
 
   getSettlement(request, reply) {
-    withSettlement(request, reply, settlement => {
+    this.withSettlement(request, reply, settlement => {
       reply.send(mapSettlement(settlement));
     });
   }
 
   getBuildingTypes(request, reply) {
-    withSettlement(request, reply, settlement => {
+    this.withSettlement(request, reply, settlement => {
       reply.send(
         settlement.getBuildingTypes().map(type => ({
           id: type.id,
@@ -70,20 +70,14 @@ export default class SettlementService {
     });
   }
 
-  getResources(request, reply) {
-    withSettlement(request, reply, settlement => {
+  getSettlementResources(request, reply) {
+    this.withSettlement(request, reply, settlement => {
       reply.send(settlement.getResources());
     });
   }
 
-  getObjective(request, reply) {
-    withSettlement(request, reply, settlement => {
-      reply.send(settlement.getObjective());
-    });
-  }
-
   createBuilding(request, reply) {
-    withSettlement(request, reply, settlement => {
+    this.withSettlement(request, reply, settlement => {
       try {
         const building = settlement.createBuilding(request.body.type);
         reply.code(202).send(mapBuilding(building));
@@ -94,13 +88,17 @@ export default class SettlementService {
   }
 
   getBuildings(request, reply) {
-    withSettlement(request, reply, settlement => {
-      // TODO
+    this.withSettlement(request, reply, settlement => {
+      const builings = settlement.getBuildings(request.query);
+      reply.send({
+        size: builings.length,
+        items: builings.map(mapBuilding)
+      });
     });
   }
 
   withBuilding(request, reply, callback) {
-    withSettlement(request, reply, settlement => {
+    this.withSettlement(request, reply, settlement => {
       const id = request.params.buildingId;
       const building = settlement.getBuilding(id);
       if (building) {
@@ -112,20 +110,20 @@ export default class SettlementService {
   }
 
   getBuilding(request, reply) {
-    withBuilding(request, reply, building => {
+    this.withBuilding(request, reply, building => {
       reply.send(mapBuilding(building));
     });
   }
 
   updateBuilding(request, reply) {
-    withBuilding(request, reply, building => {
+    this.withBuilding(request, reply, building => {
       building.status = request.body.status;
       reply.send(building);
     });
   }
 
   deleteBuilding(request, reply) {
-    withBuilding(request, reply, (building, settlement) => {
+    this.withBuilding(request, reply, (building, settlement) => {
       settlement.deleteBuilding(building.id);
       reply.code(204).send();
     });

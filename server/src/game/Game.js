@@ -8,12 +8,14 @@ export default class Game {
   constructor({ gameLoopDelay }) {
     this.gameLoopDelay = gameLoopDelay;
 
-    this.settlements = [new Settlement("bozestan", "sohrab")]; // TODO set to []
+    this.settlements = [];
+    this.hashids = new Hashids("resttlers", 5);
+
     // TODO remove
+    this.createSettlement("bozestan", "sohrab");
+    console.log(this.settlements[0].apiKey);
     this.settlements[0].createBuilding("quarry");
     this.settlements[0].createBuilding("woodcutter");
-
-    this.hashids = new Hashids("resttlers", 5);
 
     this.tick();
   }
@@ -30,11 +32,11 @@ export default class Game {
 
   createSettlement(name, leader) {
     const settlement = new Settlement(
-      hashids.encode(this.settlements.length),
+      this.hashids.encode(this.settlements.length),
       name,
       leader
     );
-    this.settlements += settlement;
+    this.settlements.push(settlement);
     return settlement;
   }
 
