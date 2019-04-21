@@ -337,8 +337,18 @@ components:
       enum: 
         - quarry
         - woodcutter
-        - forrester
-        # TODO 
+        - forester
+        - sawmill
+        - waterworks
+        - farm
+        - mill
+        - bakery
+        - fishery
+        - hunter
+        - coalMine
+        - goldMine
+        - goldSmelting
+        - goldMint
     BuildingTypes:
       type: object
       properties:
@@ -365,7 +375,20 @@ components:
         - stone
         - tree
         - lumber
-        # TODO
+        - plank
+        - water
+        - grain
+        - flour
+        - bread
+        - fish
+        - meat
+        - coal
+        - goldOre
+        - goldBar
+        - goldCoin
+    Resources:
+      type: object
+      additionalProperties: true
     Settlement:
       type: object
       properties:

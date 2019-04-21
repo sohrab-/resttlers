@@ -13,12 +13,19 @@ import { levels } from "./levels";
 const STARTING_RESOURCES = {
   tree: 200,
   stoneDeposit: 500,
+  lumber: 0,
   plank: 10,
   stone: 10,
   water: 0,
   grain: 0,
   flour: 0,
-  bread: 0
+  bread: 0,
+  fish: 0,
+  meat: 0,
+  coal: 0,
+  goldOre: 0,
+  goldBar: 0,
+  goldCoin: 0
 };
 
 class Notifier {
