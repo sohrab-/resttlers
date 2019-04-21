@@ -31,6 +31,7 @@ const settlements = [
     creationTime: 1555595776947,
     objective: "Build this and that",
     score: 123,
+    level: 2,
     resources: {
       tree: 123,
       lumber: 33,
@@ -58,6 +59,7 @@ const settlements = [
     creationTime: 1555595776000,
     objective: "Build this and that",
     score: 12,
+    level: 1,
     resources: {
       tree: 123,
       goldCoin: 33,

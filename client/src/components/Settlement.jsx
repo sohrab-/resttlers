@@ -27,11 +27,9 @@ const styles = theme => ({
   cardContent: {
     padding: 0
   },
-  scoreBadge: {
-    top: "50%",
-    right: -30,
-    color: "#fff",
-    backgroundColor: "rgb(225, 0, 80)"
+  levelBadge: {
+    top: "20%",
+    right: 5
   },
   section: {
     margin: theme.spacing.unit * 2,
@@ -51,6 +49,7 @@ const component = props => {
     leader,
     objective,
     score,
+    level,
     resources,
     buildings,
     buildingTypes,
@@ -65,7 +64,13 @@ const component = props => {
             title={`ID: ${settlementId}`}
             aria-label={`ID: ${settlementId}`}
           >
-            <img src={HeadquartersImage} />
+            <Badge
+              badgeContent={level}
+              color="primary"
+              classes={{ badge: classes.levelBadge }}
+            >
+              <img src={HeadquartersImage} />
+            </Badge>
           </Tooltip>
         }
         title={name}
