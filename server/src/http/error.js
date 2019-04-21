@@ -1,3 +1,10 @@
+const ERROR_TYPES = {
+  400: "BadRequest",
+  403: "Forbidden",
+  404: "NotFound",
+  500: "InternalServerError"
+};
+
 /**
  * Handles not found errors in fastify
  * @param {Object} request Fastify request
@@ -5,7 +12,7 @@
  */
 export function notFoundHandler(request, reply) {
   reply.send({
-    errorType: "NotFound",
+    errorType: ERROR_TYPES[400],
     errorDescription: "Resource not found"
   });
 }
@@ -33,32 +40,10 @@ export function defaultErrorHandler(error, request, reply) {
   }
 
   // build error response
-  if (res.statusCode === 400) {
-    reply.send({
-      errorType: "BadRequest",
-      errorDescription:
-        error && error.type && error.message
-          ? `${error.type}: ${error.message}`
-          : "Bad request"
-    });
-    return;
-  }
-
-  if (res.statusCode === 404) {
-    reply.send({
-      errorType: "NotFound",
-      errorDescription:
-        error && error.type && error.message
-          ? `${error.type}: ${error.message}`
-          : "Resource not found"
-    });
-    return;
-  }
-
-  const errorType = error && error.type ? error.type : "InternalServerError";
+  const errorType = ERROR_TYPES[res.statusCode] || "InternalServerError";
   const errorDescription =
-    (error && error.message && error.type && res.statusCode) !== 500
-      ? `${error.type}: ${error.message}`
+    res.statusCode < 500 && error && error.message
+      ? error.message
       : "An unexpected error has occurred";
   reply.send({ errorType, errorDescription });
 }
