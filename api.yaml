@@ -381,6 +381,9 @@ components:
         apiKey:
           type: string
           description: The API key to be used in the header when interacting with this settlement
+        objective:
+          type: string
+          description: The current objective for this settlement
       required: 
         - name
         - leader

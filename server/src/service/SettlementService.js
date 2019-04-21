@@ -2,7 +2,8 @@ function mapSettlement(settlement, apiKey = false) {
   const mapped = {
     id: settlement.id,
     name: settlement.name,
-    leader: settlement.leader
+    leader: settlement.leader,
+    objective: settlement.getObjective()
   };
   if (apiKey) {
     mapped.apiKey = settlement.apiKey;
