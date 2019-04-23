@@ -164,10 +164,7 @@ export default class Settlement {
       .filter(([name]) =>
         this.level.unlockedBuildings.some(unlocked => unlocked.id === name)
       )
-      .reduce((accum, [k, v]) => {
-        accum[k] = v;
-        return accum;
-      }, {});
+      .map(([, v]) => v);
   }
 
   reset() {

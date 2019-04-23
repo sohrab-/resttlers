@@ -111,7 +111,7 @@ paths:
     get:
       summary: Get Building Types
       description: Only building types that are available to the settlement will be returned.
-      operationId: getBuildingTypes
+      operationId: getSettlementBuildingTypes
       tags:
         - Settlement
       responses:
@@ -131,6 +131,33 @@ paths:
                     - tree
                   produces:
                     - lumber
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /settlements/{settlementId}/resources:
+    parameters:
+      - name: settlementId
+        in: path
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Settlement Resources
+      description: Only the resources that are available to the settlement will be returned.
+      operationId: getSettlementResources
+      tags:
+        - Settlement
+      responses:
+        '200':
+          description: All available resources are returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resources"
+              example: 
+                tree: 1
+                lumber: 23
+                coal: 12
         default:
           $ref: "#/components/responses/ErrorResponse"
   
@@ -224,7 +251,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Settlement"
+                $ref: "#/components/schemas/Building"
               example: 
                 id: xxxxx
                 type: sawmill
@@ -318,10 +345,10 @@ components:
       type: object
       properties:
         id:
-          type: string
-          description: The unique identifier of this building type
+          $ref: "#/components/schemas/BuildingTypeField"
         cost:
           type: object
+          additionalProperties: true
           description: A map of resources and their quantity required for constructing this building
         consumes:
           type: array

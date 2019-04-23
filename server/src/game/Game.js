@@ -13,7 +13,7 @@ export default class Game {
 
     // TODO remove
     this.createSettlement("bozestan", "sohrab");
-    console.log(this.settlements[0].apiKey);
+    this.settlements[0].apiKey = "key";
     this.settlements[0].createBuilding("quarry");
     this.settlements[0].createBuilding("woodcutter");
 
