@@ -1,0 +1,132 @@
+openapi: "3.0.0"
+
+info:
+  version: "1.0.0"
+  title: Something API v1
+
+servers:
+  - url: https://api.panasonic/api/v1
+
+paths:
+  /somethings:
+    post:
+      summary: Create Something
+      operationId: createSomething
+      tags:
+        - Something
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Something"
+      responses:
+        '201':
+          description: Something was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Something"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    get:
+      summary: Search Something
+      operationId: getSomethings
+      tags:
+        - Something
+      parameters:
+        - name: name
+          in: query
+          description: Only return results whose name matches the value
+          schema:
+            type: string
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        '200':
+          description: Zero or more somethings found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Somethings"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+  /somethings/{somethingId}:
+    parameters:
+      - name: somethingId
+        in: path
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get Something
+      operationId: getSomething
+      tags:
+        - Something
+      responses:
+        '200':
+          description: Something found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Something"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      description: The number of items to offset the results by
+      schema:
+        type: integer
+        default: 1
+    PageSize:
+      name: pageSize
+      in: query
+      description: The number of items to be returned in the response
+      schema:
+        type: integer
+        default: 10
+    Sort:
+      name: sort
+      in: query
+      description: |
+        Sort the results by the provided fields and direction, in format `<field name>:<direction>,...`
+        Where `<direction>` can be `asc` or `desc`
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorType:
+          type: string
+          example: BadRequest
+        errorDescription:
+          type: string
+          example: Resource not found
+    Something:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Somethings:
+      type: object
+      properties:
+        hasNext:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Something"
+  responses:
+    ErrorResponse:
+      description: An error has occurred
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

@@ -1,0 +1,54 @@
+{
+  "name": "@dpe/fastify-openapi",
+  "version": "1.0.1",
+  "description": "OpenAPI 3 Fastify plugin",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist --copy-files --source-maps",
+    "lint": "eslint src/**/*.js test/**/*.js",
+    "lint-fix": "eslint --fix src/**/*.js test/**/*.js",
+    "test": "mocha --exit --require @babel/register test/**/*.js",
+    "create-nyc-report-dir": "node -e 'const fs = require(\"fs\"); if (!fs.existsSync(\".nyc_output\")) fs.mkdirSync(\".nyc_output\");'",
+    "coverage-show": "npm run create-nyc-report-dir && nyc npm run test",
+    "coverage": "npm run create-nyc-report-dir && nyc check-coverage npm run test",
+    "check": "npm run lint && npm run test && npm run coverage"
+  },
+  "author": "sohrab",
+  "homepage": "https://platform.deloitte.com.au/",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "private"
+  },
+  "repository": "?",
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "fastify": "^2.0.1",
+    "fastify-plugin": "^1.5.0",
+    "swagger-parser": "^6.0.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "babel-eslint": "^10.0.1",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.17.1",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.18.11",
+    "nyc": "^13.3.0",
+    "prettier": "^1.17.0",
+    "sinon": "^7.3.1"
+  }
+}
