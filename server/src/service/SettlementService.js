@@ -41,10 +41,21 @@ export default class SettlementService {
     });
   }
 
-  withSettlement(request, reply, callback) {
+  withSettlement(request, reply, callback, secured = true) {
     const id = request.params.settlementId;
     const settlement = this.game.getSettlement(id);
-    // TODO check API key
+
+    // validate API key
+    if (secured) {
+      const apiKey = request.headers["api-key"];
+      if (settlement.apiKey !== apiKey) {
+        reply.forbidden(
+          "Cannot find the correct API-Key header for this settlement in the request"
+        );
+        return;
+      }
+    }
+
     if (settlement) {
       callback(settlement);
     } else {
@@ -53,28 +64,46 @@ export default class SettlementService {
   }
 
   getSettlement(request, reply) {
-    this.withSettlement(request, reply, settlement => {
-      reply.send(mapSettlement(settlement));
-    });
+    this.withSettlement(
+      request,
+      reply,
+      settlement => {
+        reply.send(mapSettlement(settlement));
+      },
+      false
+    );
   }
 
-  getBuildingTypes(request, reply) {
-    this.withSettlement(request, reply, settlement => {
-      reply.send(
-        settlement.getBuildingTypes().map(type => ({
+  getSettlementBuildingTypes(request, reply) {
+    this.withSettlement(
+      request,
+      reply,
+      settlement => {
+        const items = settlement.getBuildingTypes().map(type => ({
           id: type.id,
           cost: type.cost,
-          consumes: type.consumes,
-          produces: type.produces
-        }))
-      );
-    });
+          consumes: Object.keys(type.consumes),
+          produces: Object.keys(type.produces)
+        }));
+        console.log(items);
+        reply.send({
+          items,
+          size: items.length
+        });
+      },
+      false
+    );
   }
 
   getSettlementResources(request, reply) {
-    this.withSettlement(request, reply, settlement => {
-      reply.send(settlement.getResources());
-    });
+    this.withSettlement(
+      request,
+      reply,
+      settlement => {
+        reply.send(settlement.getResources());
+      },
+      false
+    );
   }
 
   createBuilding(request, reply) {
@@ -89,31 +118,46 @@ export default class SettlementService {
   }
 
   getBuildings(request, reply) {
-    this.withSettlement(request, reply, settlement => {
-      const builings = settlement.getBuildings(request.query);
-      reply.send({
-        size: builings.length,
-        items: builings.map(mapBuilding)
-      });
-    });
+    this.withSettlement(
+      request,
+      reply,
+      settlement => {
+        const builings = settlement.getBuildings(request.query);
+        reply.send({
+          size: builings.length,
+          items: builings.map(mapBuilding)
+        });
+      },
+      false
+    );
   }
 
-  withBuilding(request, reply, callback) {
-    this.withSettlement(request, reply, settlement => {
-      const id = request.params.buildingId;
-      const building = settlement.getBuilding(id);
-      if (building) {
-        callback(building, settlement);
-      } else {
-        reply.notFound(`Building [${id}] not found`);
-      }
-    });
+  withBuilding(request, reply, callback, secured = true) {
+    this.withSettlement(
+      request,
+      reply,
+      settlement => {
+        const id = request.params.buildingId;
+        const building = settlement.getBuilding(id);
+        if (building) {
+          callback(building, settlement);
+        } else {
+          reply.notFound(`Building [${id}] not found`);
+        }
+      },
+      secured
+    );
   }
 
   getBuilding(request, reply) {
-    this.withBuilding(request, reply, building => {
-      reply.send(mapBuilding(building));
-    });
+    this.withBuilding(
+      request,
+      reply,
+      building => {
+        reply.send(mapBuilding(building));
+      },
+      false
+    );
   }
 
   updateBuilding(request, reply) {
