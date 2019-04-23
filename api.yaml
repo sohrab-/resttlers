@@ -293,7 +293,9 @@ components:
         status:
           type: string
           description: The current status of the building
-          enum: 
+          enum:
+            - buildQueued
+            - underConstruction
             - ready
             - working
             - waiting

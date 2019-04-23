@@ -62,8 +62,10 @@ export default class Settlement {
     // building construction
     if (this.buildQueue.length > 0) {
       const { building, buildTime } = this.buildQueue[0];
+      building.status = "underConstruction";
       // construction completed
       if (buildTime >= building.type.buildTime) {
+        building.status = "ready";
         this.buildings.push(this.buildQueue.shift().building);
         this.notifier.notify({ event: "buildCompleted", building });
       } else {

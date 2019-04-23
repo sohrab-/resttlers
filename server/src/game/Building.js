@@ -9,7 +9,7 @@ export default class Building {
     this.id = id;
     this.type = type;
 
-    this.status = "ready";
+    this.status = "buildQueued";
     this.missingResources = [];
     this.productionElapsed = 0;
     this.notifier = notifier;
@@ -18,7 +18,11 @@ export default class Building {
   produce(resources) {
     const { productionTime, consumes, produces } = this.type;
 
-    if (this.status == "disabled") {
+    if (
+      this.status === "buildQueued" ||
+      this.status === "underConstruction" ||
+      this.status === "disabled"
+    ) {
       return;
     }
 
