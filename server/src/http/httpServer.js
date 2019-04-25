@@ -1,10 +1,9 @@
 import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
 
-// TODO
 import fastifyOpenapi from "@dpe/fastify-openapi";
-import { notFoundHandler, defaultErrorHandler } from "./http/error";
-import SettlementService from "./service/SettlementService";
+import { notFoundHandler, defaultErrorHandler } from "./error";
+import SettlementService from "../service/SettlementService";
 
 /**
  * Configures and starts a Fastify server
@@ -13,10 +12,7 @@ import SettlementService from "./service/SettlementService";
  * @param {string} httpBasePath The HTTP base path applied to all resources
  * @param {string} logLevel The log level
  */
-export default function startServer(
-  game,
-  { httpPort, httpBasePath, logLevel }
-) {
+export default function httpServer(game, { httpPort, httpBasePath, logLevel }) {
   const service = new SettlementService(game);
 
   const server = fastify({
@@ -29,7 +25,7 @@ export default function startServer(
   server.register(fastifySensible, { errorHandler: false });
 
   server.register(fastifyOpenapi, {
-    apiSpec: `${__dirname}/../../api.yaml`,
+    apiSpec: `${__dirname}/../../../api.yaml`,
     services: {
       "*": service
     },
@@ -47,4 +43,6 @@ export default function startServer(
       process.exit(1);
     }
   });
+
+  return server;
 }

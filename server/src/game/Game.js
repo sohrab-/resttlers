@@ -1,8 +1,6 @@
 import Hashids from "hashids";
 
 import Settlement from "./Settlement";
-import Building from "./Building";
-import { buildingTypes } from "./buildingTypes";
 
 export default class Game {
   constructor({ gameLoopDelay }) {
