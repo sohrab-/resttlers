@@ -112,7 +112,7 @@ export default class Settlement {
     return building;
   }
 
-  getBuildings({ type, status }) {
+  getBuildings({ type, status } = {}) {
     return type || status
       ? this.buildings.filter(building =>
           type && status

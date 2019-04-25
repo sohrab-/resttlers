@@ -40,7 +40,7 @@ export default class Game {
     return settlement;
   }
 
-  getSettlements({ name, leader }) {
+  getSettlements({ name, leader } = {}) {
     // TODO partial match
     return name || leader
       ? this.settlements.filter(settlement =>
