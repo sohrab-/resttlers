@@ -42,6 +42,8 @@ class Notifier {
 
 export default class Settlement {
   constructor(id, name, leader) {
+    this.creationTime = Date.now();
+
     this.id = id;
     this.name = name;
     this.leader = leader;
@@ -49,11 +51,7 @@ export default class Settlement {
     this.apiKey = uuid();
     this.hashids = new Hashids(this.id, 5);
 
-    this.score = 0;
-    this.level = levels.level1;
-    this.resources = STARTING_RESOURCES;
-    this.buildings = [];
-    this.buildQueue = [];
+    this.reset();
 
     this.notifier = new Notifier(this);
   }
@@ -113,15 +111,19 @@ export default class Settlement {
   }
 
   getBuildings({ type, status } = {}) {
+    // add the build queue
+    const buildings = this.buildings.concat(
+      this.buildQueue.map(item => item.building)
+    );
     return type || status
-      ? this.buildings.filter(building =>
+      ? buildings.filter(building =>
           type && status
             ? building.type === type && building.status === status
             : type
             ? building.type === type
             : building.status === status
         )
-      : this.buildings;
+      : buildings;
   }
 
   getBuilding(id) {
@@ -168,6 +170,8 @@ export default class Settlement {
   }
 
   reset() {
+    this.score = 0;
+    this.level = levels.level1;
     this.resources = STARTING_RESOURCES;
     this.buildings = [];
     this.buildQueue = [];
