@@ -1,0 +1,23 @@
+{
+  "name": "resttlers",
+  "version": "1.0.0",
+  "description": "The Resttlers",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd ./server && npm start\" \"cd ./client && npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sohrab-/resttlers.git"
+  },
+  "author": "sohrab",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sohrab-/resttlers/issues"
+  },
+  "homepage": "https://github.com/sohrab-/resttlers#readme",
+  "devDependencies": {
+    "concurrently": "^4.1.0"
+  }
+}
