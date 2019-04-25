@@ -18,8 +18,8 @@ export const buildingTypes = {
     buildTime: 20,
     productionTime: 20
   }),
-  forrester: new BuildingType({
-    id: "forrester",
+  forester: new BuildingType({
+    id: "forester",
     cost: { plank: 2 },
     consumes: {},
     produces: { tree: 1 },
