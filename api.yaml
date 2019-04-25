@@ -348,7 +348,8 @@ components:
           $ref: "#/components/schemas/BuildingTypeField"
         cost:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            type: number
           description: A map of resources and their quantity required for constructing this building
         consumes:
           type: array
@@ -417,7 +418,8 @@ components:
         - goldCoin
     Resources:
       type: object
-      additionalProperties: true
+      additionalProperties:
+        type: number
     Settlement:
       type: object
       properties:
