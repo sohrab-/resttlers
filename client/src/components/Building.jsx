@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
-import Badge from "@material-ui/core/Badge";
 import Yellow from "@material-ui/core/colors/yellow";
 import Red from "@material-ui/core/colors/red";
 import Grey from "@material-ui/core/colors/grey";
@@ -84,7 +83,7 @@ const BUILDING_ORDER = {
   coalMine: 10,
   goldMine: 11,
   goldSmelting: 12,
-  goldMine: 13
+  goldMint: 13
 };
 
 export const sortBuilding = (a, b) => BUILDING_ORDER[a] - BUILDING_ORDER[b];
@@ -203,8 +202,8 @@ Building.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
-  statusReason: PropTypes.string.isRequired,
-  conumes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  statusReason: PropTypes.string,
+  conumes: PropTypes.arrayOf(PropTypes.string),
   produces: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 

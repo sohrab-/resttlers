@@ -69,7 +69,7 @@ const settlement = props => {
               color="primary"
               classes={{ badge: classes.levelBadge }}
             >
-              <img src={HeadquartersImage} />
+              <img src={HeadquartersImage} alt="headquarters" />
             </Badge>
           </Tooltip>
         }
@@ -101,18 +101,19 @@ const settlement = props => {
           {Object.entries(resources)
             .sort((a, b) => sortResources(a[0], b[0]))
             .map(([name, amount]) => (
-              <Resource name={name} amount={amount} />
+              <Resource name={name} amount={amount} key={name} />
             ))}
         </div>
         <Divider />
         <div className={classes.section}>
           {buildings
             .sort((a, b) => 10 * sortBuilding(a.type, b.type))
-            .map(building => (
+            .map((building, index) => (
               <Building
                 {...building}
                 consumes={buildingTypes[building.type].consumes}
                 produces={buildingTypes[building.type].produces}
+                key={`building-${index}`}
               />
             ))}
         </div>

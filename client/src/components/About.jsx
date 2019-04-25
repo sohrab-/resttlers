@@ -29,7 +29,7 @@ const about = props => {
 
 about.propTypes = {
   classes: PropTypes.object.isRequired,
-  open: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
   onClose: PropTypes.func
 };
 

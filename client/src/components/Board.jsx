@@ -83,7 +83,7 @@ class Board extends Component {
             .map(settlement => {
               const { id, ...others } = settlement;
               return (
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} lg={4} key={id}>
                   <Settlement
                     settlementId={id}
                     {...others}
