@@ -41,7 +41,7 @@ const styles = theme => ({
   }
 });
 
-const component = props => {
+const settlement = props => {
   const {
     classes,
     settlementId,
@@ -121,7 +121,7 @@ const component = props => {
   );
 };
 
-component.propTypes = {
+settlement.propTypes = {
   classes: PropTypes.object.isRequired,
   settlementId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -135,4 +135,4 @@ component.propTypes = {
   onPin: PropTypes.func
 };
 
-export default withStyles(styles)(component);
+export default withStyles(styles)(settlement);

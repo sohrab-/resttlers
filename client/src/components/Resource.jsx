@@ -51,7 +51,7 @@ const styles = theme => ({
   }
 });
 
-const component = props => {
+const resource = props => {
   const { classes, name, amount } = props;
   const resourceName = RESOURCE_DISPLAYS[name];
   // TODO if empty resource, background light red
@@ -67,10 +67,10 @@ const component = props => {
   );
 };
 
-component.propTypes = {
+resource.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired
 };
 
-export default withStyles(styles)(component);
+export default withStyles(styles)(resource);

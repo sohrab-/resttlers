@@ -10,7 +10,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 
 const styles = {};
 
-const component = props => {
+const about = props => {
   const { onClose } = props;
   return (
     <Dialog aria-labelledby="About" {...props}>
@@ -27,10 +27,10 @@ const component = props => {
   );
 };
 
-component.propTypes = {
+about.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.func.isRequired,
   onClose: PropTypes.func
 };
 
-export default withStyles(styles)(component);
+export default withStyles(styles)(about);

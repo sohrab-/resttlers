@@ -35,20 +35,21 @@ const backgroundPosition = resource => {
   return `${x * -24}px ${y * -24}px`; // each tile is 24x24
 };
 
-const component = props => {
+const resourceIcon = props => {
   const { classes, name } = props;
   return (
     <img
       src={TransparentImage}
       className={classes.root}
       style={{ backgroundPosition: backgroundPosition(name) }}
+      alt={name}
     />
   );
 };
 
-component.propTypes = {
+resourceIcon.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(component);
+export default withStyles(styles)(resourceIcon);
