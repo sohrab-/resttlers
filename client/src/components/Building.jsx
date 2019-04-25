@@ -136,45 +136,70 @@ const styles = theme => ({
   }
 });
 
-const component = props => {
-  const { classes, type, status, statusReason, consumes, produces } = props;
-  return (
-    <Tooltip
-      title={
-        <React.Fragment>
-          <div className={classes.tooltipText}>
-            <b>{BUILDING_DISPLAYS[type]}</b>
-            <br />
-            <span className={classes[`${status}Tooltip`]}>
-              ({BUILDING_STATUS_DISPLAYS[status]})
-            </span>
-            {statusReason && (
-              <span className={classes.statusReasonTooltip}>
-                <br />
-                {statusReason}
-              </span>
-            )}
-            <br />
-            <br />
-            {consumes &&
-              consumes.map(resource => <ResourceIcon name={resource} />)}
-            <ArrowRightIcon />
-            {produces.map(resource => (
-              <ResourceIcon name={resource} />
-            ))}
-          </div>
-        </React.Fragment>
-      }
-    >
-      <img
-        src={BUILDING_IMAGES[type]}
-        className={classes[`${status}Image`] || {}}
-      />
-    </Tooltip>
-  );
-};
+class Building extends React.Component {
+  state = {
+    built: false
+  };
 
-component.propTypes = {
+  componentDidUpdate(prevProps) {
+    if (this.props.status !== prevProps.status) {
+      if (prevProps.status === "underConstruction") {
+        this.setState({ built: true });
+      }
+    }
+  }
+
+  render() {
+    const {
+      classes,
+      type,
+      status,
+      statusReason,
+      consumes,
+      produces
+    } = this.props;
+
+    const imageClasses =
+      (classes[`${status}Image`] || "") +
+      " " +
+      (this.state.built ? "animated rubberBand" : "");
+    return (
+      <Tooltip
+        title={
+          <React.Fragment>
+            <div className={classes.tooltipText}>
+              <b>{BUILDING_DISPLAYS[type]}</b>
+              <br />
+              <span className={classes[`${status}Tooltip`]}>
+                ({BUILDING_STATUS_DISPLAYS[status]})
+              </span>
+              {statusReason && (
+                <span className={classes.statusReasonTooltip}>
+                  <br />
+                  {statusReason}
+                </span>
+              )}
+              <br />
+              <br />
+              {consumes &&
+                consumes.map(resource => (
+                  <ResourceIcon name={resource} key={resource} />
+                ))}
+              <ArrowRightIcon />
+              {produces.map(resource => (
+                <ResourceIcon name={resource} key={resource} />
+              ))}
+            </div>
+          </React.Fragment>
+        }
+      >
+        <img src={BUILDING_IMAGES[type]} className={imageClasses} alt={type} />
+      </Tooltip>
+    );
+  }
+}
+
+Building.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
@@ -183,4 +208,4 @@ component.propTypes = {
   produces: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
-export default withStyles(styles)(component);
+export default withStyles(styles)(Building);
