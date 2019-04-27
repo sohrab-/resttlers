@@ -2,6 +2,9 @@ import Hashids from "hashids";
 
 import Settlement from "./Settlement";
 
+const partialMatch = (text, substring) =>
+  text.toLowerCase().includes(substring.toLowerCase());
+
 export default class Game {
   constructor({ gameLoopDelay }) {
     this.gameLoopDelay = gameLoopDelay;
@@ -39,14 +42,14 @@ export default class Game {
   }
 
   getSettlements({ name, leader } = {}) {
-    // TODO partial match
     return name || leader
       ? this.settlements.filter(settlement =>
           name && leader
-            ? settlement.name === name && settlement.leader === leader
+            ? partialMatch(settlement.name, name) &&
+              partialMatch(settlement.leader, leader)
             : name
-            ? settlement.name === name
-            : settlement.leader === leader
+            ? partialMatch(settlement.name, name)
+            : partialMatch(settlement.leader, leader)
         )
       : this.settlements;
   }
