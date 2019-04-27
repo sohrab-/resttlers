@@ -4,13 +4,11 @@ import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
-import Chip from "@material-ui/core/Chip";
 import Badge from "@material-ui/core/Badge";
 import Tooltip from "@material-ui/core/Tooltip";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import FlagIcon from "@material-ui/icons/FlagOutlined";
-import StarIcon from "@material-ui/icons/Star";
+
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 
@@ -18,6 +16,7 @@ import Resource, { sortResources } from "./Resource";
 import Building, { sortBuilding } from "./Building";
 
 import HeadquartersImage from "../images/headquarters.png";
+import SettlementStatus from "./SettlementStatus";
 
 const styles = theme => ({
   root: {
@@ -85,17 +84,7 @@ const settlement = props => {
       />
       <CardContent className={classes.cardContent}>
         <div className={classes.objective}>
-          <Tooltip title="Score" aria-label="Score" placement="left">
-            <Chip label={score} icon={<StarIcon />} color="secondary" />
-          </Tooltip>
-          <Tooltip title="Objective" aria-label="Objective" placement="right">
-            <Chip
-              label={objective}
-              icon={<FlagIcon />}
-              color="secondary"
-              variant="outlined"
-            />
-          </Tooltip>
+          <SettlementStatus score={score} objective={objective} />
         </div>
         <div className={classes.section}>
           {Object.entries(resources)
