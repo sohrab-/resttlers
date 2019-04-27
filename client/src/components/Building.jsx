@@ -153,7 +153,7 @@ class Building extends React.Component {
       classes,
       type,
       status,
-      statusReason,
+      missingResources,
       consumes,
       produces
     } = this.props;
@@ -172,10 +172,11 @@ class Building extends React.Component {
               <span className={classes[`${status}Tooltip`]}>
                 ({BUILDING_STATUS_DISPLAYS[status]})
               </span>
-              {statusReason && (
+              {missingResources.length > 0 && (
                 <span className={classes.statusReasonTooltip}>
                   <br />
-                  {statusReason}
+                  {/* TODO not "display"ing the resource */}
+                  {`Insufficient resources: ${missingResources.join(", ")}`}
                 </span>
               )}
               <br />
@@ -202,7 +203,7 @@ Building.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
-  statusReason: PropTypes.string,
+  missingResources: PropTypes.arrayOf(PropTypes.string),
   conumes: PropTypes.arrayOf(PropTypes.string),
   produces: PropTypes.arrayOf(PropTypes.string).isRequired
 };
