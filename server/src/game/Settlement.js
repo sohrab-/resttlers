@@ -8,7 +8,7 @@ import {
 } from "./resources";
 import { buildingTypes } from "./buildingTypes";
 import Building from "./Building";
-import { levels } from "./levels";
+import { levels, nextLevel } from "./levels";
 
 const STARTING_RESOURCES = {
   tree: 200,
@@ -56,6 +56,14 @@ export default class Settlement {
     this.notifier = new Notifier(this);
   }
 
+  reset() {
+    this.score = 0;
+    this.level = levels.level1;
+    this.resources = STARTING_RESOURCES;
+    this.buildings = [];
+    this.buildQueue = [];
+  }
+
   tick() {
     // building construction
     if (this.buildQueue.length > 0) {
@@ -76,7 +84,11 @@ export default class Settlement {
       building.produce(this.resources);
     });
 
-    // TODO level up
+    // level up
+    if (this.level.objectiveMet(this)) {
+      this.score += this.level.points;
+      this.level = nextLevel(this.level);
+    }
   }
 
   createBuilding(typeId) {
@@ -169,11 +181,7 @@ export default class Settlement {
       .map(([, v]) => v);
   }
 
-  reset() {
-    this.score = 0;
-    this.level = levels.level1;
-    this.resources = STARTING_RESOURCES;
-    this.buildings = [];
-    this.buildQueue = [];
+  hasBuildingOfType(type) {
+    return this.buildings.some(building => building.type.id === type.id);
   }
 }
