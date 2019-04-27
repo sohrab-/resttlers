@@ -12,12 +12,17 @@ function mapSettlement(settlement, apiKey = false) {
 }
 
 function mapBuilding(building) {
-  return {
+  const mapped = {
     id: building.id,
     type: building.type.id,
-    status: building.status,
-    statusReason: building.statusReason
+    status: building.status
   };
+  if (building.missingResources.length > 0) {
+    mapped.statusReason = `Insufficient resources: ${builing.missingResources.join(
+      ", "
+    )}`;
+  }
+  return mapped;
 }
 
 export default class SettlementService {

@@ -37,7 +37,7 @@ const settlements = {
           properties: {
             type: { type: "string" },
             status: { type: "string" },
-            statusReason: { type: "string" }
+            missingResources: { type: "array", items: { type: "string" } }
           }
         }
       }

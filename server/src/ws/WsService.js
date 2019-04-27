@@ -36,7 +36,7 @@ export default class WsService {
       level: settlement.level.id,
       resources: settlement.getResources(),
       buildings: settlement.getBuildings().map(building => ({
-        ...filterObject(building, ["id", "status", "statusReason"]),
+        ...filterObject(building, ["id", "status", "missingResources"]),
         type: building.type.id
       }))
     }));
