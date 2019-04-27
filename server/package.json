@@ -1,7 +1,8 @@
 {
-  "name": "resttlers",
+  "name": "@resttlers/server",
   "version": "1.0.0",
   "description": "The Resttlers",
+  "private": true,
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js --exec babel-node | pino-pretty --colorize",

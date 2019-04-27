@@ -49,8 +49,6 @@ export default function httpServer(
   // TODO admin endpoints
 
   // serve UI
-  console.log(path.join(BASE_DIR, "client", "build"));
-  console.log(`${httpBasePath}/ui`);
   server.register(fastifyStatic, {
     root: path.join(BASE_DIR, "client", "build"),
     prefix: `${httpBasePath}/ui`,
