@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "@resttlers/client",
   "version": "0.1.0",
   "homepage": ".",
   "proxy": "http://localhost:8085",
