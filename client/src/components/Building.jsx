@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
+import Grow from "@material-ui/core/Grow";
 import Yellow from "@material-ui/core/colors/yellow";
 import Red from "@material-ui/core/colors/red";
 import Grey from "@material-ui/core/colors/grey";
@@ -163,38 +164,44 @@ class Building extends React.Component {
       " " +
       (this.state.built ? "animated rubberBand" : "");
     return (
-      <Tooltip
-        title={
-          <React.Fragment>
-            <div className={classes.tooltipText}>
-              <b>{BUILDING_DISPLAYS[type]}</b>
-              <br />
-              <span className={classes[`${status}Tooltip`]}>
-                ({BUILDING_STATUS_DISPLAYS[status]})
-              </span>
-              {missingResources.length > 0 && (
-                <span className={classes.statusReasonTooltip}>
-                  <br />
-                  {/* TODO not "display"ing the resource */}
-                  {`Insufficient resources: ${missingResources.join(", ")}`}
+      <Grow in timeout={500}>
+        <Tooltip
+          title={
+            <React.Fragment>
+              <div className={classes.tooltipText}>
+                <b>{BUILDING_DISPLAYS[type]}</b>
+                <br />
+                <span className={classes[`${status}Tooltip`]}>
+                  ({BUILDING_STATUS_DISPLAYS[status]})
                 </span>
-              )}
-              <br />
-              <br />
-              {consumes &&
-                consumes.map(resource => (
+                {missingResources.length > 0 && (
+                  <span className={classes.statusReasonTooltip}>
+                    <br />
+                    {/* TODO not "display"ing the resource */}
+                    {`Insufficient resources: ${missingResources.join(", ")}`}
+                  </span>
+                )}
+                <br />
+                <br />
+                {consumes &&
+                  consumes.map(resource => (
+                    <ResourceIcon name={resource} key={resource} />
+                  ))}
+                <ArrowRightIcon />
+                {produces.map(resource => (
                   <ResourceIcon name={resource} key={resource} />
                 ))}
-              <ArrowRightIcon />
-              {produces.map(resource => (
-                <ResourceIcon name={resource} key={resource} />
-              ))}
-            </div>
-          </React.Fragment>
-        }
-      >
-        <img src={BUILDING_IMAGES[type]} className={imageClasses} alt={type} />
-      </Tooltip>
+              </div>
+            </React.Fragment>
+          }
+        >
+          <img
+            src={BUILDING_IMAGES[type]}
+            className={imageClasses}
+            alt={type}
+          />
+        </Tooltip>
+      </Grow>
     );
   }
 }

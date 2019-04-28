@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Grow from "@material-ui/core/Grow";
 import Chip from "@material-ui/core/Chip";
 import Tooltip from "@material-ui/core/Tooltip";
 import ResourceIcon from "./ResourceIcon";
@@ -56,14 +57,16 @@ const resource = props => {
   const resourceName = RESOURCE_DISPLAYS[name];
   // TODO if empty resource, background light red
   return (
-    <Tooltip title={resourceName} aria-label={resourceName}>
-      <Chip
-        className={classes.chip}
-        label={amount}
-        icon={<ResourceIcon name={name} />}
-        variant="outlined"
-      />
-    </Tooltip>
+    <Grow in timeout={500}>
+      <Tooltip title={resourceName} aria-label={resourceName}>
+        <Chip
+          className={classes.chip}
+          label={amount}
+          icon={<ResourceIcon name={name} />}
+          variant="outlined"
+        />
+      </Tooltip>
+    </Grow>
   );
 };
 
