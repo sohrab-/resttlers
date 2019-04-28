@@ -3,6 +3,8 @@ import {
   spendResources,
   produceResources
 } from "./resources";
+import { buildingTypes } from "./buildingTypes";
+import filterObject from "../utils/filterObject";
 
 export default class Building {
   constructor(id, type, { notifier }) {
@@ -62,5 +64,30 @@ export default class Building {
     this.status = "waiting";
     this.missingResources = missingResources(consumes, resources);
     return;
+  }
+
+  toState() {
+    return {
+      ...filterObject(this, [
+        "id",
+        "status",
+        "missingResources",
+        "productionElapsed"
+      ]),
+      type: this.type.id
+    };
+  }
+
+  fromState(state) {
+    Object.assign(
+      this,
+      filterObject(state, [
+        "id",
+        "status",
+        "missingResources",
+        "productionElapsed"
+      ])
+    );
+    this.type = buildingTypes[state.type];
   }
 }

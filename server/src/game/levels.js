@@ -16,6 +16,10 @@ export class Level {
     this.unlockedBuildings = unlockedBuildings;
     this.unlockedResources = unlockedResources;
   }
+
+  toState() {
+    return this.id;
+  }
 }
 
 const level1 = new Level({
@@ -105,3 +109,6 @@ export const levels = {
   level4,
   level5
 };
+
+export const fromState = id =>
+  Object.entries(levels).find(([, level]) => level.id === id)[1];

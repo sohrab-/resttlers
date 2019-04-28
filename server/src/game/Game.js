@@ -12,12 +12,6 @@ export default class Game {
     this.settlements = [];
     this.hashids = new Hashids("resttlers", 5);
 
-    // TODO remove
-    this.createSettlement("bozestan", "sohrab");
-    this.settlements[0].apiKey = "key";
-    this.settlements[0].createBuilding("quarry");
-    this.settlements[0].createBuilding("woodcutter");
-
     this.tick();
   }
 
@@ -66,5 +60,22 @@ export default class Game {
       return null;
     }
     return this.settlements.splice(index, 1);
+  }
+
+  toState() {
+    return {
+      settlements: this.settlements.map(settlement => settlement.toState())
+    };
+  }
+
+  fromState(state) {
+    this.settlements = state.settlements.map(settlementState => {
+      const settlement = this.createSettlement(
+        settlementState.name,
+        settlementState.leader
+      );
+      settlement.fromState(settlementState);
+      return settlement;
+    });
   }
 }

@@ -28,6 +28,7 @@ const settlements = {
       score: { type: "integer" },
       level: { type: "string" },
       resources: {
+        type: "object",
         additionalProperties: { type: "integer" }
       },
       buildings: {

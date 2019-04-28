@@ -8,7 +8,8 @@ import {
 } from "./resources";
 import { buildingTypes } from "./buildingTypes";
 import Building from "./Building";
-import { levels, nextLevel } from "./levels";
+import { levels, nextLevel, fromState as levelFromState } from "./levels";
+import filterObject from "../utils/filterObject";
 
 const STARTING_RESOURCES = {
   tree: 200,
@@ -183,5 +184,58 @@ export default class Settlement {
 
   hasBuildingOfType(type) {
     return this.buildings.some(building => building.type.id === type.id);
+  }
+
+  toState() {
+    return {
+      ...filterObject(this, [
+        "id",
+        "name",
+        "leader",
+        "creationTime",
+        "apiKey",
+        "score",
+        "resources"
+      ]),
+      level: this.level.toState(),
+      buildings: this.buildings.map(building => building.toState()),
+      buildQueue: this.buildQueue.map(item => ({
+        ...filterObject(item, ["buildTime"]),
+        building: item.building.toState()
+      }))
+    };
+  }
+
+  fromState(state) {
+    const fromStateBuilding = (buildingState, index) => {
+      const building = new Building(
+        this.hashids.encode(index),
+        buildingTypes[buildingState.type],
+        { notifier: this.notifier }
+      );
+      building.fromState(buildingState);
+      return building;
+    };
+
+    Object.assign(
+      this,
+      filterObject(state, [
+        "id",
+        "name",
+        "leader",
+        "creationTime",
+        "apiKey",
+        "score",
+        "resources"
+      ])
+    );
+    this.level = levelFromState(state.level);
+    this.buildings = state.buildings.map(fromStateBuilding);
+    this.buildQueue = state.buildQueue.map((itemState, index) => {
+      return {
+        ...filterObject(itemState, ["buildTime"]),
+        building: fromStateBuilding(itemState.building, index)
+      };
+    });
   }
 }
