@@ -2,9 +2,9 @@
   "name": "@dpe/fastify-openapi",
   "version": "1.0.1",
   "description": "OpenAPI 3 Fastify plugin",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "scripts": {
-    "build": "babel src --out-dir dist --copy-files --source-maps",
+    "build": "babel src --out-dir build --copy-files --source-maps",
     "lint": "eslint src/**/*.js test/**/*.js",
     "lint-fix": "eslint --fix src/**/*.js test/**/*.js",
     "test": "mocha --exit --require @babel/register test/**/*.js",
