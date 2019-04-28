@@ -1,12 +1,5 @@
 import { buildingTypes } from "../game/buildingTypes";
-
-const filterObject = (object, keys) =>
-  Object.keys(object).reduce((accum, current) => {
-    if (keys.indexOf(current) >= 0) {
-      accum[current] = object[current];
-    }
-    return accum;
-  }, {});
+import filterObject from "../utils/filterObject";
 
 export default class WsService {
   constructor(game) {
