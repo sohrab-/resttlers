@@ -5,6 +5,7 @@ function mapSettlement(settlement, apiKey = false) {
     leader: settlement.leader,
     objective: settlement.getObjective()
     // TODO creationTime
+    // TODO score, etc.
   };
   if (apiKey) {
     mapped.apiKey = settlement.apiKey;
