@@ -19,8 +19,9 @@ class App extends Component {
   };
 
   componentDidMount() {
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
     const host = process.env.REACT_APP_LOCATION_HOST || window.location.host;
-    const socket = new WebSocket(`ws://${host}`);
+    const socket = new WebSocket(`${protocol}://${host}`);
     socket.addEventListener("message", event => {
       const json = JSON.parse(event.data);
       this.setState(json);
