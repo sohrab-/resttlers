@@ -29,18 +29,6 @@ const STARTING_RESOURCES = {
   goldCoin: 0
 };
 
-class Notifier {
-  constructor(settlement) {
-    this.settlement = settlement;
-  }
-
-  notify({ event, building }) {
-    console.log(
-      `${event}: ${this.settlement.name} ${building.id} (${building.type.id})`
-    );
-  }
-}
-
 export default class Settlement {
   constructor(id, name, leader) {
     this.creationTime = Date.now();
@@ -53,8 +41,6 @@ export default class Settlement {
     this.hashids = new Hashids(this.id, 5);
 
     this.reset();
-
-    this.notifier = new Notifier(this);
   }
 
   reset() {
@@ -74,7 +60,6 @@ export default class Settlement {
       if (buildTime >= building.type.buildTime) {
         building.status = "ready";
         this.buildings.push(this.buildQueue.shift().building);
-        this.notifier.notify({ event: "buildCompleted", building });
       } else {
         this.buildQueue[0].buildTime += 1;
       }
@@ -108,18 +93,13 @@ export default class Settlement {
 
     const building = new Building(
       this.hashids.encode(this.buildings.length + this.buildQueue.length),
-      type,
-      { notifier: this.notifier }
+      type
     );
     this.buildQueue.push({
       building,
       buildTime: 0
     });
 
-    this.notifier.notify({
-      event: "buildQueued",
-      building
-    });
     return building;
   }
 
@@ -150,10 +130,6 @@ export default class Settlement {
     }
 
     reclaimResources(this.buildings[index].type.cost, this.resources);
-    this.notifier.notify({
-      event: "buildingDestroyed",
-      building
-    });
     return this.buildings.splice(index, 1);
   }
 
@@ -210,8 +186,7 @@ export default class Settlement {
     const fromStateBuilding = (buildingState, index) => {
       const building = new Building(
         this.hashids.encode(index),
-        buildingTypes[buildingState.type],
-        { notifier: this.notifier }
+        buildingTypes[buildingState.type]
       );
       building.fromState(buildingState);
       return building;

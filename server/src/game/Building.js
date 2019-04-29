@@ -7,14 +7,13 @@ import { buildingTypes } from "./buildingTypes";
 import filterObject from "../utils/filterObject";
 
 export default class Building {
-  constructor(id, type, { notifier }) {
+  constructor(id, type) {
     this.id = id;
     this.type = type;
 
     this.status = "buildQueued";
     this.missingResources = [];
     this.productionElapsed = 0;
-    this.notifier = notifier;
   }
 
   produce(resources) {
@@ -39,7 +38,6 @@ export default class Building {
       this.missingResources = [];
       this.productionElapsed = 0;
 
-      this.notifier.notify({ event: "productionStarted", building: this });
       return;
     }
 
@@ -50,7 +48,6 @@ export default class Building {
       this.status = "ready";
       this.missingResources = [];
 
-      this.notifier.notify({ event: "productionCompleted", building: this });
       return;
     }
 
