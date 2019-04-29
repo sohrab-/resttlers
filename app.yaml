@@ -10,3 +10,4 @@ resources:
 
 env_variables:
   GCLOUD_STORAGE_BUCKET: resttlers
+  SAVE_STORE: gcs
