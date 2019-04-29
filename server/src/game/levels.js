@@ -36,7 +36,7 @@ const level1 = new Level({
     buildingTypes.sawmill,
     buildingTypes.forester
   ],
-  unlockedResources: ["stoneDeposit", "tree", "stone", "plank"]
+  unlockedResources: ["stoneDeposit", "tree", "stone", "lumber", "plank"]
 });
 
 const level2 = new Level({
@@ -92,7 +92,7 @@ const level4 = new Level({
 
 const level5 = new Level({
   id: "5",
-  objective: "Prosper",
+  objective: "Prosper!",
   objectiveMet: () => false, // last level
   points: 10,
   unlockedBuildings: level4.unlockedBuildings,
