@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"cd ./server && npm start\" \"cd ./client && npm start\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gcloud app deploy"
   },
   "repository": {
     "type": "git",
@@ -13,6 +13,9 @@
   },
   "author": "sohrab",
   "license": "MIT",
+  "engines": {
+    "node": "10.x.x"
+  },
   "bugs": {
     "url": "https://github.com/sohrab-/resttlers/issues"
   },
