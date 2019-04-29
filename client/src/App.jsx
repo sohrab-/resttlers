@@ -19,7 +19,8 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const socket = new WebSocket("ws://localhost:8085");
+    const host = process.env.REACT_APP_LOCATION_HOST || window.location.host;
+    const socket = new WebSocket(`ws://${host}`);
     socket.addEventListener("message", event => {
       const json = JSON.parse(event.data);
       this.setState(json);
