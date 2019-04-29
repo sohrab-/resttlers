@@ -19,7 +19,7 @@ const SAVE_STORE_FILE_PATH =
   process.env.SAVE_STORE_FILE_PATH || "/tmp/resttlers.json";
 
 const SAVE_STORE_GCS_BUCKET =
-  process.env.SAVE_STORE_FILE_PATH ||
+  process.env.SAVE_STORE_GCS_BUCKET ||
   process.env.GCLOUD_STORAGE_BUCKET ||
   "resttlers";
 const SAVE_STORE_GCS_FILENAME = process.env.GCS_FILENAME || "resttlers.json";
