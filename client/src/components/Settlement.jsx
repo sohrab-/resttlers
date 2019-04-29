@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import Tooltip from "@material-ui/core/Tooltip";
 import Divider from "@material-ui/core/Divider";
@@ -37,6 +38,9 @@ const styles = theme => ({
   objective: {
     textAlign: "center",
     marginTop: theme.spacing.unit
+  },
+  emptyText: {
+    color: " #b3b3b3"
   }
 });
 
@@ -95,16 +99,22 @@ const settlement = props => {
         </div>
         <Divider />
         <div className={classes.section}>
-          {buildings
-            .sort((a, b) => 10 * sortBuilding(a.type, b.type))
-            .map((building, index) => (
-              <Building
-                {...building}
-                consumes={buildingTypes[building.type].consumes}
-                produces={buildingTypes[building.type].produces}
-                key={`building-${index}`}
-              />
-            ))}
+          {buildings.length > 0 ? (
+            buildings
+              .sort((a, b) => 10 * sortBuilding(a.type, b.type))
+              .map((building, index) => (
+                <Building
+                  {...building}
+                  consumes={buildingTypes[building.type].consumes}
+                  produces={buildingTypes[building.type].produces}
+                  key={`building-${index}`}
+                />
+              ))
+          ) : (
+            <Typography className={classes.emptyText}>
+              No buildings yet!
+            </Typography>
+          )}
         </div>
       </CardContent>
     </Card>

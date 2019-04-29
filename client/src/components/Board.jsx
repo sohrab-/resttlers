@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -26,6 +27,12 @@ const styles = theme => ({
   },
   sortSelectText: {
     fontSize: "small"
+  },
+  empty: {
+    textAlign: "center"
+  },
+  emptyText: {
+    color: " #b3b3b3"
   }
 });
 
@@ -76,26 +83,34 @@ class Board extends Component {
           >
         </Select>
         <Grid container spacing={24}>
-          {settlements
-            .filter(filterSettlement(search))
-            .slice()
-            .sort(this.sortSettlements)
-            .map(settlement => {
-              const { id, ...others } = settlement;
-              return (
-                <Grid item xs={12} md={6} lg={4} key={id}>
-                  <Settlement
-                    settlementId={id}
-                    {...others}
-                    buildingTypes={buildingTypes}
-                    pinned={id === this.state.pinned}
-                    onPin={id => {
-                      this.setState({ pinned: id });
-                    }}
-                  />
-                </Grid>
-              );
-            })}
+          {settlements.length > 0 ? (
+            settlements
+              .filter(filterSettlement(search))
+              .slice()
+              .sort(this.sortSettlements)
+              .map(settlement => {
+                const { id, ...others } = settlement;
+                return (
+                  <Grid item xs={12} md={6} lg={4} key={id}>
+                    <Settlement
+                      settlementId={id}
+                      {...others}
+                      buildingTypes={buildingTypes}
+                      pinned={id === this.state.pinned}
+                      onPin={id => {
+                        this.setState({ pinned: id });
+                      }}
+                    />
+                  </Grid>
+                );
+              })
+          ) : (
+            <Grid item xs={12} className={classes.empty}>
+              <Typography variant="h6" className={classes.emptyText}>
+                No settlements yet!
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       </div>
     );
