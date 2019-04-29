@@ -12,7 +12,7 @@ const HTTP_BASE_PATH = process.env.HTTP_BASE_PATH || "";
 
 const GAME_LOOP_DELAY = process.env.GAME_LOOP_DELAY || "1000";
 const BROADCAST_INTERVAL = process.env.BROADCAST_INTERVAL || "2000";
-const SAVE_INTERVAL = process.env.SAVE_INTERVAL || "30000";
+const SAVE_INTERVAL = process.env.SAVE_INTERVAL || "300000"; // 5 minutes
 const SAVE_STORE = process.env.SAVE_STORE || "memory";
 
 const SAVE_STORE_FILE_PATH =
