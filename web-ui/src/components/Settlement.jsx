@@ -9,9 +9,10 @@ import Badge from "@material-ui/core/Badge";
 import Tooltip from "@material-ui/core/Tooltip";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
+
+import { buildingTypes } from "@resttlers/engine";
 
 import Resource, { sortResources } from "./Resource";
 import Building, { sortBuilding } from "./Building";
@@ -55,7 +56,6 @@ const settlement = props => {
     level,
     resources,
     buildings,
-    buildingTypes,
     pinned,
     onPin
   } = props;

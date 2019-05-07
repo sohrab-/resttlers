@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import firebase from "firebase/app";
+import "firebase/firestore";
 import { withStyles } from "@material-ui/core/styles";
 import withRoot from "./utils/withRoot";
 import TitleBar from "./components/TitleBar";
@@ -11,6 +13,15 @@ const styles = theme => ({
   }
 });
 
+// Initialise Cloud Firestore through Firebase
+firebase.initializeApp({
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
+});
+
+const db = firebase.firestore();
+
 class App extends Component {
   state = {
     search: "",
@@ -19,13 +30,13 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const host = process.env.REACT_APP_LOCATION_HOST || window.location.host;
-    const socket = new WebSocket(`${protocol}://${host}`);
-    socket.addEventListener("message", event => {
-      const json = JSON.parse(event.data);
-      this.setState(json);
-    });
+    db.collection("settlements")
+      .where("status", "==", "verified")
+      .onSnapshot(snapshot => {
+        this.setState({
+          settlements: snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        });
+      });
   }
 
   render() {

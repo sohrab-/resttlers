@@ -184,11 +184,11 @@ class Building extends React.Component {
                 <br />
                 <br />
                 {consumes &&
-                  consumes.map(resource => (
+                  Object.keys(consumes).map(resource => (
                     <ResourceIcon name={resource} key={resource} />
                   ))}
                 <ArrowRightIcon />
-                {produces.map(resource => (
+                {Object.keys(produces).map(resource => (
                   <ResourceIcon name={resource} key={resource} />
                 ))}
               </div>
