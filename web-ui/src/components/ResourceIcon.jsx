@@ -35,21 +35,18 @@ const backgroundPosition = resource => {
   return `${x * -24}px ${y * -24}px`; // each tile is 24x24
 };
 
-const resourceIcon = props => {
-  const { classes, name } = props;
-  return (
-    <img
-      src={TransparentImage}
-      className={classes.root}
-      style={{ backgroundPosition: backgroundPosition(name) }}
-      alt={name}
-    />
-  );
-};
+const ResourceIcon = ({ classes, name }) => (
+  <img
+    src={TransparentImage}
+    className={classes.root}
+    style={{ backgroundPosition: backgroundPosition(name) }}
+    alt={name}
+  />
+);
 
-resourceIcon.propTypes = {
+ResourceIcon.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(resourceIcon);
+export default withStyles(styles)(ResourceIcon);

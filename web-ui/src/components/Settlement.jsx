@@ -45,83 +45,80 @@ const styles = theme => ({
   }
 });
 
-const settlement = props => {
-  const {
-    classes,
-    settlementId,
-    name,
-    leader,
-    objective,
-    score,
-    level,
-    resources,
-    buildings,
-    pinned,
-    onPin
-  } = props;
-  return (
-    <Card>
-      <CardHeader
-        avatar={
-          <Tooltip
-            title={`ID: ${settlementId}`}
-            aria-label={`ID: ${settlementId}`}
+const Settlement = ({
+  classes,
+  settlementId,
+  name,
+  leader,
+  objective,
+  score,
+  level,
+  resources,
+  buildings,
+  pinned,
+  onPin
+}) => (
+  <Card>
+    <CardHeader
+      avatar={
+        <Tooltip
+          title={`ID: ${settlementId}`}
+          aria-label={`ID: ${settlementId}`}
+        >
+          <Badge
+            badgeContent={level}
+            color="primary"
+            classes={{ badge: classes.levelBadge }}
           >
-            <Badge
-              badgeContent={level}
-              color="primary"
-              classes={{ badge: classes.levelBadge }}
-            >
-              <img src={HeadquartersImage} alt="headquarters" />
-            </Badge>
-          </Tooltip>
-        }
-        title={name}
-        subheader={`Leader: ${leader}`}
-        action={
-          <Tooltip title="Pin to the top" aria-label="Pin to the top">
-            <IconButton onClick={() => onPin(pinned ? "" : settlementId)}>
-              {pinned ? <LockIcon /> : <LockOpenIcon />}
-            </IconButton>
-          </Tooltip>
-        }
-      />
-      <CardContent className={classes.cardContent}>
-        <div className={classes.objective}>
-          <SettlementStatus score={score} objective={objective} />
-        </div>
-        <div className={classes.section}>
-          {Object.entries(resources)
-            .sort((a, b) => sortResources(a[0], b[0]))
-            .map(([name, amount]) => (
-              <Resource name={name} amount={amount} key={name} />
-            ))}
-        </div>
-        <Divider />
-        <div className={classes.section}>
-          {buildings.length > 0 ? (
-            buildings
-              .sort((a, b) => 10 * sortBuilding(a.type, b.type))
-              .map((building, index) => (
-                <Building
-                  {...building}
-                  consumes={buildingTypes[building.type].consumes}
-                  produces={buildingTypes[building.type].produces}
-                  key={`building-${index}`}
-                />
-              ))
-          ) : (
-            <Typography className={classes.emptyText}>
-              No buildings yet!
-            </Typography>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+            <img src={HeadquartersImage} alt="headquarters" />
+          </Badge>
+        </Tooltip>
+      }
+      title={name}
+      subheader={`Leader: ${leader}`}
+      action={
+        <Tooltip title="Pin to the top" aria-label="Pin to the top">
+          <IconButton onClick={() => onPin(pinned ? "" : settlementId)}>
+            {pinned ? <LockIcon /> : <LockOpenIcon />}
+          </IconButton>
+        </Tooltip>
+      }
+    />
+    <CardContent className={classes.cardContent}>
+      <div className={classes.objective}>
+        <SettlementStatus score={score} objective={objective} />
+      </div>
+      <div className={classes.section}>
+        {Object.entries(resources)
+          .sort((a, b) => sortResources(a[0], b[0]))
+          .map(([name, amount]) => (
+            <Resource name={name} amount={amount} key={name} />
+          ))}
+      </div>
+      <Divider />
+      <div className={classes.section}>
+        {buildings.length > 0 ? (
+          buildings
+            .sort((a, b) => 10 * sortBuilding(a.type, b.type))
+            .map((building, index) => (
+              <Building
+                {...building}
+                consumes={buildingTypes[building.type].consumes}
+                produces={buildingTypes[building.type].produces}
+                key={`building-${index}`}
+              />
+            ))
+        ) : (
+          <Typography className={classes.emptyText}>
+            No buildings yet!
+          </Typography>
+        )}
+      </div>
+    </CardContent>
+  </Card>
+);
 
-settlement.propTypes = {
+Settlement.propTypes = {
   classes: PropTypes.object.isRequired,
   settlementId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -130,9 +127,8 @@ settlement.propTypes = {
   score: PropTypes.number.isRequired,
   resources: PropTypes.object.isRequired,
   buildings: PropTypes.arrayOf(PropTypes.object).isRequired,
-  buildingTypes: PropTypes.object.isRequired,
   pinned: PropTypes.bool.isRequired,
   onPin: PropTypes.func
 };
 
-export default withStyles(styles)(settlement);
+export default withStyles(styles)(Settlement);

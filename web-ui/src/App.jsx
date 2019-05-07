@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -22,37 +22,31 @@ firebase.initializeApp({
 
 const db = firebase.firestore();
 
-class App extends Component {
-  state = {
-    search: "",
-    buildingTypes: {},
-    settlements: []
-  };
+const App = ({ classes }) => {
+  const [search, setSearch] = useState("");
+  const [settlements, setSettlements] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     db.collection("settlements")
       .where("status", "==", "verified")
       .onSnapshot(snapshot => {
-        this.setState({
-          settlements: snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-        });
+        setSettlements(
+          snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        );
       });
-  }
+  }, []);
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <TitleBar onSearch={value => this.setState({ search: value })} />
-        <Board
-          buildingTypes={this.state.buildingTypes}
-          settlements={this.state.settlements}
-          search={this.state.search}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className={classes.root}>
+      <TitleBar
+        onSearch={value => {
+          setSearch(value);
+        }}
+      />
+      <Board settlements={settlements} search={search} />
+    </div>
+  );
+};
 
 App.propTypes = {
   classes: PropTypes.object.isRequired

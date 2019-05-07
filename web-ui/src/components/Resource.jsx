@@ -6,6 +6,7 @@ import Chip from "@material-ui/core/Chip";
 import Tooltip from "@material-ui/core/Tooltip";
 import ResourceIcon from "./ResourceIcon";
 
+// TODO move to common/resources?
 const RESOURCE_DISPLAYS = {
   stoneDeposit: "Stone Deposit",
   stone: "Stone",
@@ -24,6 +25,7 @@ const RESOURCE_DISPLAYS = {
   goldCoin: "Gold Coin"
 };
 
+// TODO start with an array and compile this thing at start-up
 const RESOURCE_ORDER = {
   stoneDeposit: 0,
   stone: 1,
@@ -52,8 +54,7 @@ const styles = theme => ({
   }
 });
 
-const resource = props => {
-  const { classes, name, amount } = props;
+const Resource = ({ classes, name, amount }) => {
   const resourceName = RESOURCE_DISPLAYS[name];
   // TODO if empty resource, background light red
   return (
@@ -70,10 +71,10 @@ const resource = props => {
   );
 };
 
-resource.propTypes = {
+Resource.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired
 };
 
-export default withStyles(styles)(resource);
+export default withStyles(styles)(Resource);

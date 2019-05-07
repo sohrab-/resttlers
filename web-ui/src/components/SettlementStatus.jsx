@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
@@ -8,26 +8,21 @@ import StarIcon from "@material-ui/icons/Star";
 
 const styles = {};
 
-class SettlementStatus extends Component {
-  render() {
-    const { objective, score } = this.props;
-    return (
-      <Fragment>
-        <Tooltip title="Score" aria-label="Score" placement="left">
-          <Chip label={score} icon={<StarIcon />} color="secondary" />
-        </Tooltip>
-        <Tooltip title="Objective" aria-label="Objective" placement="right">
-          <Chip
-            label={objective}
-            icon={<FlagIcon />}
-            color="secondary"
-            variant="outlined"
-          />
-        </Tooltip>
-      </Fragment>
-    );
-  }
-}
+const SettlementStatus = ({ objective, score }) => (
+  <Fragment>
+    <Tooltip title="Score" aria-label="Score" placement="left">
+      <Chip label={score} icon={<StarIcon />} color="secondary" />
+    </Tooltip>
+    <Tooltip title="Objective" aria-label="Objective" placement="right">
+      <Chip
+        label={objective}
+        icon={<FlagIcon />}
+        color="secondary"
+        variant="outlined"
+      />
+    </Tooltip>
+  </Fragment>
+);
 
 SettlementStatus.propTypes = {
   classes: PropTypes.object.isRequired,

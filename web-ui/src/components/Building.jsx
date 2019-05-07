@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -10,39 +10,11 @@ import Green from "@material-ui/core/colors/green";
 import Blue from "@material-ui/core/colors/blue";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 
+import { buildingTypes } from "@resttlers/engine";
+
+import { usePrevious } from "../utils/hooks";
 import ResourceIcon from "./ResourceIcon";
-
-import QuarryImage from "../images/quarry.png";
-import WoodcutterImage from "../images/woodcutter.png";
-import ForesterImage from "../images/forester.png";
-import SawmillImage from "../images/sawmill.png";
-import WaterworksImage from "../images/waterworks.png";
-import FarmImage from "../images/farm.png";
-import MillImage from "../images/mill.png";
-import BakeryImage from "../images/bakery.png";
-import FisheryImage from "../images/fishery.png";
-import HunterImage from "../images/hunter.png";
-import CoalMineImage from "../images/coalMine.png";
-import GoldMineImage from "../images/goldMine.png";
-import GoldSmeltingImage from "../images/goldSmelting.png";
-import GoldMintImage from "../images/goldMint.png";
-
-const BUILDING_DISPLAYS = {
-  quarry: "Quarry",
-  woodcutter: "Woodcutter",
-  forester: "Forester",
-  sawmill: "Sawmill",
-  waterworks: "Waterworks",
-  farm: "Farm",
-  mill: "Mill",
-  bakery: "Bakery",
-  fishery: "Fishery",
-  hunter: "Hunter",
-  coalMine: "Coal Mine",
-  goldMine: "Gold Mine",
-  goldSmelting: "Gold Smelting",
-  goldMint: "Gold Mint"
-};
+import buildingImages from "../images/buildingImages";
 
 const BUILDING_STATUS_DISPLAYS = {
   buildQueued: "Queued for Construction",
@@ -51,23 +23,6 @@ const BUILDING_STATUS_DISPLAYS = {
   working: "Working",
   waiting: "Waiting",
   disabled: "Disabled"
-};
-
-const BUILDING_IMAGES = {
-  quarry: QuarryImage,
-  woodcutter: WoodcutterImage,
-  forester: ForesterImage,
-  sawmill: SawmillImage,
-  waterworks: WaterworksImage,
-  farm: FarmImage,
-  mill: MillImage,
-  bakery: BakeryImage,
-  fishery: FisheryImage,
-  hunter: HunterImage,
-  coalMine: CoalMineImage,
-  goldMine: GoldMineImage,
-  goldSmelting: GoldSmeltingImage,
-  goldMint: GoldMintImage
 };
 
 const BUILDING_ORDER = {
@@ -136,83 +91,80 @@ const styles = theme => ({
   }
 });
 
-class Building extends React.Component {
-  state = {
-    built: false
-  };
-
-  componentDidUpdate(prevProps) {
-    if (this.props.status !== prevProps.status) {
-      if (prevProps.status === "underConstruction") {
-        this.setState({ built: true });
+const Building = ({
+  classes,
+  type,
+  status,
+  missingResources,
+  consumes,
+  produces
+}) => {
+  const previousStatus = usePrevious(status);
+  const imageDom = useRef();
+  useEffect(() => {
+    if (previousStatus === "underConstruction") {
+      imageDom.current.classList.add("animated", "rubberBand");
+      function handleAnimationEnd() {
+        imageDom.current.classList.remove("animated", "rubberBand");
+        imageDom.current.removeEventListener(
+          "animationend",
+          handleAnimationEnd
+        );
       }
+      imageDom.current.addEventListener("animationend", handleAnimationEnd);
     }
-  }
+  }, [status]);
 
-  render() {
-    const {
-      classes,
-      type,
-      status,
-      missingResources,
-      consumes,
-      produces
-    } = this.props;
-
-    const imageClasses =
-      (classes[`${status}Image`] || "") +
-      " " +
-      (this.state.built ? "animated rubberBand" : "");
-    return (
-      <Grow in timeout={500}>
-        <Tooltip
-          title={
-            <React.Fragment>
-              <div className={classes.tooltipText}>
-                <b>{BUILDING_DISPLAYS[type]}</b>
-                <br />
-                <span className={classes[`${status}Tooltip`]}>
-                  ({BUILDING_STATUS_DISPLAYS[status]})
+  return (
+    <Grow in timeout={500}>
+      <Tooltip
+        title={
+          <React.Fragment>
+            <div className={classes.tooltipText}>
+              <b>{buildingTypes[type].name}</b>
+              <br />
+              <span className={classes[`${status}Tooltip`]}>
+                ({BUILDING_STATUS_DISPLAYS[status]})
+              </span>
+              {missingResources.length > 0 && (
+                <span className={classes.statusReasonTooltip}>
+                  <br />
+                  {/* TODO not "display"ing the resource */}
+                  {`Insufficient resources: ${missingResources.join(", ")}`}
                 </span>
-                {missingResources.length > 0 && (
-                  <span className={classes.statusReasonTooltip}>
-                    <br />
-                    {/* TODO not "display"ing the resource */}
-                    {`Insufficient resources: ${missingResources.join(", ")}`}
-                  </span>
-                )}
-                <br />
-                <br />
-                {consumes &&
-                  Object.keys(consumes).map(resource => (
-                    <ResourceIcon name={resource} key={resource} />
-                  ))}
-                <ArrowRightIcon />
-                {Object.keys(produces).map(resource => (
+              )}
+              <br />
+              <br />
+              {consumes &&
+                Object.keys(consumes).map(resource => (
                   <ResourceIcon name={resource} key={resource} />
                 ))}
-              </div>
-            </React.Fragment>
-          }
-        >
-          <img
-            src={BUILDING_IMAGES[type]}
-            className={imageClasses}
-            alt={type}
-          />
-        </Tooltip>
-      </Grow>
-    );
-  }
-}
+              <ArrowRightIcon />
+              {Object.keys(produces).map(resource => (
+                <ResourceIcon name={resource} key={resource} />
+              ))}
+            </div>
+          </React.Fragment>
+        }
+      >
+        <img
+          ref={imageDom}
+          src={buildingImages[type]}
+          alt={type}
+          className={classes[`${status}Image`]}
+        />
+      </Tooltip>
+    </Grow>
+  );
+};
 
 Building.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   missingResources: PropTypes.arrayOf(PropTypes.string),
-  conumes: PropTypes.arrayOf(PropTypes.string),
-  produces: PropTypes.arrayOf(PropTypes.string).isRequired
+  conumes: PropTypes.object,
+  produces: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Building);

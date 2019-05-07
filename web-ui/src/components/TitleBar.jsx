@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
@@ -75,76 +75,72 @@ const styles = theme => ({
   }
 });
 
-class TitleBar extends React.Component {
-  state = {
-    aboutDialogOpen: false
-  };
+const TitleBar = ({ classes, onSearch }) => {
+  const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
 
-  toggleAboutDialog = () => {
-    this.setState(({ aboutDialogOpen }) => ({
-      aboutDialogOpen: !aboutDialogOpen
-    }));
-  };
-
-  render() {
-    const { classes, onSearch } = this.props;
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography
-              variant="h4"
-              color="inherit"
-              className={classes.title}
-              noWrap
-            >
-              The Resttlers
-            </Typography>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search..."
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                onChange={event => {
-                  onSearch(event.target.value);
-                }}
-              />
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h4"
+            color="inherit"
+            className={classes.title}
+            noWrap
+          >
+            The Resttlers
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
             </div>
-            <div className={classes.grow} />
-            <Tooltip title="API Specification" aria-label="API Specification">
-              <IconButton target="_blank" href="/apidocs" color="inherit">
-                <LibraryBooksIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Help" aria-label="Help">
-              <IconButton
-                target="_blank"
-                href="https://github.com/sohrab-/resttlers/wiki/How-to-Play"
-                color="inherit"
-              >
-                <HelpIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="About" aria-label="About">
-              <IconButton color="inherit" onClick={this.toggleAboutDialog}>
-                <InfoIcon />
-              </IconButton>
-            </Tooltip>
-            <About
-              open={this.state.aboutDialogOpen}
-              onClose={this.toggleAboutDialog}
+            <InputBase
+              placeholder="Search..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput
+              }}
+              onChange={event => {
+                onSearch(event.target.value);
+              }}
             />
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
-}
+          </div>
+          <div className={classes.grow} />
+          <Tooltip title="API Specification" aria-label="API Specification">
+            <IconButton target="_blank" href="/apidocs" color="inherit">
+              <LibraryBooksIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Help" aria-label="Help">
+            <IconButton
+              target="_blank"
+              href="https://github.com/sohrab-/resttlers/wiki/How-to-Play"
+              color="inherit"
+            >
+              <HelpIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="About" aria-label="About">
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                setAboutDialogOpen(true);
+              }}
+            >
+              <InfoIcon />
+            </IconButton>
+          </Tooltip>
+          <About
+            open={aboutDialogOpen}
+            onClose={() => {
+              setAboutDialogOpen(false);
+            }}
+          />
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+};
 
 TitleBar.propTypes = {
   classes: PropTypes.object.isRequired,
