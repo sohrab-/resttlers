@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import firebase from "firebase/app";
-import "firebase/firestore";
 import { withStyles } from "@material-ui/core/styles";
 import withRoot from "./utils/withRoot";
 import TitleBar from "./components/TitleBar";
 import Board from "./components/Board";
+import firebase from "firebase/app";
+import "firebase/firestore"; // needed for side-effects
 
 const styles = theme => ({
   root: {
