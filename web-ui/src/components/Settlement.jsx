@@ -97,8 +97,8 @@ const Settlement = ({
       </div>
       <Divider />
       <div className={classes.section}>
-        {buildings.length > 0 ? (
-          buildings
+        {buildings ? (
+          Object.values(buildings)
             .sort((a, b) => 10 * sortBuilding(a.type, b.type))
             .map((building, index) => (
               <Building

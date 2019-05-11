@@ -23,7 +23,7 @@ export default class Settlement {
         score: 0,
         resources: startingResources,
         buildingTypes: [],
-        buildings: [],
+        buildings: {},
         buildQueue: []
       };
       updated = true;
@@ -42,13 +42,15 @@ export default class Settlement {
       // construction completed
       if (now >= timestamp + buildingType.buildTime * 1000) {
         building.status = "ready";
-        this.state.buildings.push(this.state.buildQueue.shift().building);
+        this.state.buildings[
+          building.id
+        ] = this.state.buildQueue.shift().building;
         updated = true;
       }
     }
 
     // resource production
-    this.state.buildings.forEach(building => {
+    Object.values(this.state.buildings).forEach(building => {
       if (processBuilding(building, this.state.resources)) {
         updated = true;
       }

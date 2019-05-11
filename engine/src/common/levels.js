@@ -1,7 +1,9 @@
 import buildingTypes from "./buildingTypes";
 
 const hasBuildingOfType = (settlement, type) =>
-  settlement.buildings.some(building => building.type === type.id);
+  Object.values(settlement.buildings).some(
+    building => building.type === type.id
+  );
 
 export default [
   {
