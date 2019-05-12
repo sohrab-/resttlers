@@ -2,24 +2,9 @@ import Firestore from "@google-cloud/firestore";
 
 // TODO remove building type
 export default class FirestoreStore {
-  constructor({
-    projectId,
-    buildingTypesCollectionName,
-    settlementsCollectionName
-  }) {
+  constructor({ projectId, settlementsCollectionName }) {
     this.db = new Firestore({ projectId });
-    this.buildingTypesCollection = this.db.collection(
-      buildingTypesCollectionName
-    );
     this.settlementsCollection = this.db.collection(settlementsCollectionName);
-  }
-
-  async getBuildingTypes() {
-    const { docs } = await this.buildingTypesCollection.get();
-    return docs.reduce((accum, doc) => {
-      accum[doc.id] = { ...doc.data(), id: doc.id };
-      return accum;
-    }, {});
   }
 
   async getSettlements() {
