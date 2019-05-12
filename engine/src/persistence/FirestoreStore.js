@@ -24,7 +24,7 @@ export default class FirestoreStore {
 
   async getSettlements() {
     const { docs = [] } = await this.settlementsCollection
-      .where("status", "==", "verified")
+      .where("active", "==", true)
       .get();
     return docs.map(doc => ({ ...doc.data(), id: doc.id }));
   }

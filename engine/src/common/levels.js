@@ -9,7 +9,7 @@ export default [
   {
     id: 0,
     objective: "Verify settlement",
-    objectiveMet: settlement => settlement.status === "verified",
+    objectiveMet: settlement => settlement.active,
     points: 10,
     buildingRewards: [
       buildingTypes.quarry,

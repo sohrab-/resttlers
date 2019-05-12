@@ -19,6 +19,7 @@ export default class Settlement {
       // initialise settlement
       this.state = {
         ...this.state,
+        visible: true,
         level: 0,
         score: 0,
         resources: startingResources,

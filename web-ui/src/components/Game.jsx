@@ -28,7 +28,7 @@ const Game = ({ classes }) => {
 
   useEffect(() => {
     db.collection("settlements")
-      .where("status", "==", "verified")
+      .where("visible", "==", true)
       .onSnapshot(snapshot => {
         setSettlements(
           snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
