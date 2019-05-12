@@ -59,7 +59,7 @@ const BuildingTooltip = ({
       <span className={classes[status]}>
         ({BUILDING_STATUS_DISPLAYS[status]})
       </span>
-      {missingResources.length > 0 && (
+      {missingResources && missingResources.length > 0 && (
         <span className={classes.statusReason}>
           <br />
           {/* TODO not "display"ing the resource */}

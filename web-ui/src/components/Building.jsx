@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
-import Grow from "@material-ui/core/Grow";
+
+import { buildingTypes } from "@resttlers/engine";
 
 import BuildingIcon from "./BuildingIcon";
 import BuildingTooltip from "./BuildingTooltip";
@@ -28,38 +29,27 @@ export const sortBuilding = (a, b) => BUILDING_ORDER[a] - BUILDING_ORDER[b];
 
 const styles = theme => ({});
 
-const Building = ({
-  classes,
-  type,
-  status,
-  missingResources,
-  consumes,
-  produces
-}) => (
-  <Grow in timeout={500}>
-    <Tooltip
-      title={
-        <BuildingTooltip
-          type={type}
-          status={status}
-          missingResources={missingResources}
-          consumes={consumes}
-          produces={produces}
-        />
-      }
-    >
-      <BuildingIcon type={type} status={status} />
-    </Tooltip>
-  </Grow>
+const Building = ({ classes, type, status, missingResources }) => (
+  <Tooltip
+    title={
+      <BuildingTooltip
+        type={type}
+        status={status}
+        missingResources={missingResources}
+        consumes={buildingTypes[type].consumes}
+        produces={buildingTypes[type].produces}
+      />
+    }
+  >
+    <BuildingIcon type={type} status={status} />
+  </Tooltip>
 );
 
 Building.propTypes = {
   classes: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
-  missingResources: PropTypes.arrayOf(PropTypes.string),
-  conumes: PropTypes.object,
-  produces: PropTypes.object.isRequired
+  missingResources: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default withStyles(styles)(Building);
