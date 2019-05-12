@@ -6,7 +6,7 @@ info:
   
 
 servers:
-  - url: https://xxx/api
+  - url: https://resttlers.appspot.com/api
 
 paths:
 
@@ -48,14 +48,40 @@ paths:
       parameters: 
         - name: name
           in: query
-          description: Filter results to partially match the settlement name
+          description: Narrow results to those with an exact match on the settlement name
           schema:
             type: string
         - name: leader
           in: query
-          description: Filter results to partially match the settlement leader
+          description: Narrow results to those with an exact match on the settlement leader
           schema:
             type: string
+        - name: startAfter
+          in: query
+          description: Return results starting from the next settlement after the provided settlement ID
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: The number of results to be returned in the response
+          schema:
+            type: integer
+            default: 10
+        - name: sortBy
+          in: query
+          description: The field to sort by
+          schema:
+            type: string
+            default: createdAt
+        - name: sortDirection
+          in: query
+          description: The direction of sorting, i.e. descending or ascending
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: desc
       responses:
         '200':
           description: All matching settlements are returned
@@ -64,7 +90,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Settlements"
               example: 
-                size: 1
                 items:
                 - id: xxxxx
                   name: The Fumbles
@@ -435,17 +460,28 @@ components:
         apiKey:
           type: string
           description: The API key to be used in the header when interacting with this settlement
+        incantation:
+          type: string
+          description: The incantation to allow creating the settlement
+        level:
+          type: integer
+          description: The current level of the settlement
         objective:
           type: string
           description: The current objective for this settlement
+        score:
+          type: integer
+          description: The total score for the settlement
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp of when the settlement was created
       required: 
         - name
         - leader
     Settlements:
       type: object
       properties:
-        size:
-          type: integer
         items:
           type: array
           items:
