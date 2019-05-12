@@ -4,6 +4,11 @@ import buildingTypes from "../common/buildingTypes";
 import levels from "../common/levels";
 import { startingResources } from "../common/resources";
 import processBuilding from "./processBuilding";
+import {
+  missingResources,
+  spendResources,
+  reclaimResources
+} from "./resources";
 
 export default class Settlement {
   constructor(state) {
@@ -35,13 +40,26 @@ export default class Settlement {
       const [{ building, timestamp }] = this.state.buildQueue;
       const buildingType = buildingTypes[building.type];
 
-      if (building.status !== "underConstruction") {
-        building.status = "underConstruction";
-        updated = true;
+      if (building.status === "buildQueued") {
+        // enough resources to build?
+        const missing = missingResources(
+          buildingType.cost,
+          this.state.resources
+        );
+        if (missing.length === 0) {
+          // building under construction
+          spendResources(buildingType.cost, this.state.resources);
+          building.status = "underConstruction";
+          this.state.buildQueue[0].timestamp = Date.now();
+          updated = true;
+        }
       }
 
-      // construction completed
-      if (now >= timestamp + buildingType.buildTime * 1000) {
+      if (
+        building.status === "underConstruction" &&
+        now >= timestamp + buildingType.buildTime * 1000
+      ) {
+        // building construction completed
         building.status = "ready";
         this.state.buildings[
           building.id
@@ -50,8 +68,18 @@ export default class Settlement {
       }
     }
 
-    // resource production
     Object.values(this.state.buildings).forEach(building => {
+      // demolish buildings
+      if (building.status === "toBeDemolished") {
+        reclaimResources(
+          buildingTypes[building.type].cost,
+          this.state.resources
+        );
+        delete this.state.buildings[building.id];
+        updated = true;
+      }
+
+      // resource production
       if (processBuilding(building, this.state.resources)) {
         updated = true;
       }
@@ -66,7 +94,7 @@ export default class Settlement {
         ...level.buildingRewards.map(building => building.id)
       );
       this.state.resources = {
-        ...this.state.resource,
+        ...this.state.resources,
         ...level.resourceRewards.reduce((accum, resource) => {
           accum[resource] = 0;
           return accum;
