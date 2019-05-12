@@ -34,7 +34,6 @@ export default class Game {
       }
     } catch (e) {
       this.logger.error(e);
-      process.exit(1); // TODO remove
     }
 
     setTimeout(() => {
