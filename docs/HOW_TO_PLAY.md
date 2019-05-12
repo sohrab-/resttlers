@@ -58,7 +58,7 @@ POST https://resttlers.appspot.com/api/settlements
 Content-Type: application/json
 
 {
-  "name": "<name of the settlement>"
+  "name": "<name of the settlement>",
   "leader": "<your name>"
 }
 ```
@@ -68,10 +68,18 @@ Be sure to replace `<name of the settlement>` with your desired name for the tri
 If done correctly, once you press Send, you will see a response similar to below at the bottom of Postman window:
 
 ```
-
+{
+    "id": "<settlement id>",
+    "name": "<name of the settlement>",
+    "leader": "<your name>",
+    "apiKey": "<you api key>",
+    "createdAt": "<timestamp of when the settlement was established>"
+}
 ```
 
 Take a note of `id`. This is the unique identifier to distinguish your settlement from others. You will need this ID to make all future calls.
+
+_Please note all IDs in this game are case-sensitive._
 
 Also write down the value of `apiKey`. This is the _password_ to access your settlement. **This value will never be displayed again so make sure you save it somewhere.**
 
@@ -308,7 +316,7 @@ GET https://resttlers.appspot.com/api/settlements/<id>/buildingTypes
 GET https://resttlers.appspot.com/api/settlements/<id>/resources
 ```
 
-Oh by the way, if you are getting bored `GET`ing the status of your settlement, there is always [https://resttlers.appspot.com/ui/]().
+**Oh by the way, if you are getting bored `GET`ing the status of your settlement, there is always <https://resttlers.appspot.com/ui/>.**
 
 Play on
 ---

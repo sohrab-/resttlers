@@ -1,1 +1,1 @@
-**I do not own these images.** They have been taken from [https://thesettlersonline.fandom.com](), which probably in turn have been lifted from [https://www.thesettlersonline.com]().
+**I do not own these images.** They have been taken from <https://thesettlersonline.fandom.com>, which probably in turn have been lifted from <https://www.thesettlersonline.com>.
