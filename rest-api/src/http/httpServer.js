@@ -1,19 +1,13 @@
 import fs from "fs";
 import path from "path";
 import fastify from "fastify";
-import fastifyStatic from "fastify-static";
 import fastifySensible from "fastify-sensible";
 
 import fastifyOpenapi from "@dpe/fastify-openapi";
 import { notFoundHandler, defaultErrorHandler } from "./error";
-import SettlementService from "../service/SettlementService";
 
 const BASE_DIR = path.join(__dirname, "..", "..", "..");
 const API_SPEC_YAML_PATH = path.join(BASE_DIR, "api.yaml");
-const apiSpecYaml = fs.readFileSync(API_SPEC_YAML_PATH);
-const apiSpecHtml = fs.readFileSync(
-  path.join(BASE_DIR, "server", "public", "apidocs.html")
-);
 
 /**
  * Configures and starts a Fastify server
@@ -23,11 +17,9 @@ const apiSpecHtml = fs.readFileSync(
  * @param {string} logLevel The log level
  */
 export default function httpServer(
-  game,
+  service,
   { httpPort, httpBasePath = "", logLevel }
 ) {
-  const service = new SettlementService(game);
-
   const server = fastify({
     logger: {
       level: logLevel,
@@ -44,23 +36,6 @@ export default function httpServer(
       "*": service
     },
     basePath: `${httpBasePath}/api`
-  });
-
-  // TODO admin endpoints
-
-  // serve UI
-  server.register(fastifyStatic, {
-    root: path.join(BASE_DIR, "client", "build"),
-    prefix: `${httpBasePath}/ui`,
-    redirect: true
-  });
-
-  // serve API spec
-  server.get(`${httpBasePath}/apidocs`, (request, reply) => {
-    reply.type("text/html").send(apiSpecHtml);
-  });
-  server.get(`${httpBasePath}/apidocs.yaml`, (request, reply) => {
-    reply.type("text/yaml").send(apiSpecYaml);
   });
 
   server.setNotFoundHandler(notFoundHandler);

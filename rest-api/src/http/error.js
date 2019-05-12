@@ -5,14 +5,21 @@ const ERROR_TYPES = {
   500: "InternalServerError"
 };
 
+export function throwError(statusCode, message) {
+  const error = new Error();
+  error.statusCode = statusCode;
+  error.message = message;
+  throw error;
+}
+
 /**
  * Handles not found errors in fastify
  * @param {Object} request Fastify request
  * @param {Object} reply Fastify reply
  */
 export function notFoundHandler(request, reply) {
-  reply.send({
-    errorType: ERROR_TYPES[400],
+  reply.code(404).send({
+    errorType: ERROR_TYPES[404],
     errorDescription: "Resource not found"
   });
 }
@@ -26,7 +33,7 @@ export function notFoundHandler(request, reply) {
  * @param {Object} request Fastify request
  * @param {Object} reply Fastify response
  */
-export function defaultErrorHandler(error, request, reply) {
+export function defaultErrorHandler(error, _, reply) {
   const { res } = reply;
 
   // log the error
