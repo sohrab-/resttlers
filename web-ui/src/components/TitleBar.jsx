@@ -114,7 +114,7 @@ const TitleBar = ({ classes, onSearch }) => {
           <Tooltip title="Help" aria-label="Help">
             <IconButton
               target="_blank"
-              href="https://github.com/sohrab-/resttlers/wiki/How-to-Play"
+              href="https://github.com/sohrab-/resttlers/blob/master/docs/HOW_TO_PLAY.md"
               color="inherit"
             >
               <HelpIcon />
