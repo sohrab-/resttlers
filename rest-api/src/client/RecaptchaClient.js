@@ -25,7 +25,7 @@ export default class EngineClient {
           response: token
         })
       );
-      return response.success;
+      return response.data.success;
     } catch (e) {
       this.logError(e);
     }

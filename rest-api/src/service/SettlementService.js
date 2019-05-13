@@ -80,7 +80,7 @@ export default class SettlementService {
       if (!incantation) {
         throwError(400, "An incantation must be provided");
       }
-      if (!this.recaptchaClient.verify(incantation)) {
+      if (!(await this.recaptchaClient.verify(incantation))) {
         throwError(400, "The provided incantation is not valid");
       }
     }
