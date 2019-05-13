@@ -1,6 +1,7 @@
 import Hashids from "hashids";
 import uuid from "uuid/v4";
 import moment from "moment";
+import BadWords from "bad-words";
 import { buildingTypes } from "@resttlers/engine";
 
 import { throwError } from "../http/error";
@@ -59,6 +60,7 @@ export default class SettlementService {
     this.recaptchaClient = recaptchaClient;
     this.recaptchaEnabled = recaptchaEnabled;
     this.hashids = new Hashids("resttlers", 5);
+    this.badWords = new BadWords();
   }
 
   async createSettlement(request, reply) {
@@ -87,8 +89,8 @@ export default class SettlementService {
 
     // create
     const settlement = {
-      name,
-      leader,
+      name: this.badWords.clean(name),
+      leader: this.badWords.clean(leader),
       active: true,
       apiKey: uuid(),
       createdAt: Date.now()
