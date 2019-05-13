@@ -107,7 +107,7 @@ const TitleBar = ({ classes, onSearch }) => {
           </div>
           <div className={classes.grow} />
           <Tooltip title="API Specification" aria-label="API Specification">
-            <IconButton target="_blank" href="/apidocs" color="inherit">
+            <IconButton target="_blank" href="/apidocs.html" color="inherit">
               <LibraryBooksIcon />
             </IconButton>
           </Tooltip>
