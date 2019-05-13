@@ -6,8 +6,7 @@
   "scripts": {
     "install-all": "cd ./fastify-openapi && npm install && ../engine && npm install && ../rest-api && npm install && ../web-ui && npm install",
     "build-deps": "cd ./fastify-openapi && npm run build && cd ../engine && npm run build",
-    "start": "concurrently --names \"engine,rest-api,web-ui\" \"cd ./engine && npm start\" \"cd ./rest-api && npm start\" \"cd ./web-ui && npm start\"",
-    "deploy": "gcloud app deploy"
+    "start": "concurrently --names \"engine,rest-api,web-ui\" \"cd ./engine && npm start\" \"cd ./rest-api && npm start\" \"cd ./web-ui && npm start\""
   },
   "repository": {
     "type": "git",

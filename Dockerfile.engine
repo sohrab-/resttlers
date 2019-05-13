@@ -1,0 +1,13 @@
+FROM gcr.io/google_appengine/nodejs
+LABEL maintainer=sohrab
+
+RUN /usr/local/bin/install_node 10.x.x
+
+COPY engine /app/
+RUN \
+  NODE_ENV=development npm install --unsafe-perm \
+  && npm run build \
+  && npm prune \
+  && npm cache clean --force
+
+CMD ["npm", "run", "serve"]

@@ -1,0 +1,11 @@
+env: flex
+runtime: custom
+
+service: engine
+
+manual_scaling:
+  instances: 1
+
+liveness_check:
+  path: "/health"
+  initial_delay_sec: 5

@@ -1,0 +1,6 @@
+dispatch:
+  - url: "*/favicon.ico"
+    service: default
+
+  - url: "*/api/*"
+    service: rest-api

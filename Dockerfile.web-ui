@@ -1,0 +1,29 @@
+FROM gcr.io/google_appengine/nodejs AS builder
+
+RUN /usr/local/bin/install_node 10.x.x
+
+COPY engine /app/engine
+WORKDIR /app/engine
+RUN \
+  NODE_ENV=development npm install --unsafe-perm \
+  && npm run build
+
+COPY web-ui /app/web-ui
+WORKDIR /app/web-ui
+RUN \
+  NODE_ENV=development npm install --unsafe-perm \
+  && npm run build
+
+FROM nginx:1.15
+LABEL maintainer=sohrab
+
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN mkdir -p /var/log/app_engine
+
+RUN mkdir -p /usr/share/nginx/www/_ah \
+  && echo "healthy" > /usr/share/nginx/www/_ah/health
+
+
+COPY --from=builder /app/web-ui/build /usr/share/nginx/www/
+COPY api.yaml /usr/share/nginx/www/apidocs.yaml
+RUN chmod -R a+r /usr/share/nginx/www

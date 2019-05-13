@@ -1,0 +1,31 @@
+FROM gcr.io/google_appengine/nodejs
+LABEL maintainer=sohrab
+
+RUN /usr/local/bin/install_node 10.x.x
+
+COPY engine /app/engine
+WORKDIR /app/engine
+RUN \
+  NODE_ENV=development npm install --unsafe-perm \
+  && npm run build \
+  && rm -rf ./node_modules \
+  && npm cache clean --force
+
+COPY fastify-openapi /app/fastify-openapi
+WORKDIR /app/fastify-openapi
+RUN \
+  NODE_ENV=development npm install --unsafe-perm \
+  && npm run build \
+  && rm -rf ./node_modules \
+  && npm cache clean --force
+
+COPY rest-api /app/rest-api
+COPY api.yaml /app/
+WORKDIR /app/rest-api
+RUN \
+  NODE_ENV=development npm install --unsafe-perm \
+  && npm run build \
+  && npm prune \
+  && npm cache clean --force
+
+CMD ["npm", "run", "serve"]

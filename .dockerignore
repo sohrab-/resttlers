@@ -21,3 +21,5 @@ yarn-error.log
 .git
 .hg
 .svn
+build
+*/build

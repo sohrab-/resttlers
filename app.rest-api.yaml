@@ -1,0 +1,11 @@
+env: flex
+runtime: custom
+
+service: rest-api
+
+manual_scaling:
+  instances: 1
+
+env_variables:
+  ENGINE_HTTP_BASE_URL: http://engine.resttlers.appspot.com
+  RECAPTCHA_SECRET: <your recaptcha secret key>
