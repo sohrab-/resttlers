@@ -8,7 +8,10 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CopyIcon from "@material-ui/icons/FileCopy";
 import Fade from "@material-ui/core/Fade";
 import Grey from "@material-ui/core/colors/grey";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -40,8 +43,11 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit
   },
   parchment: {
+    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
     margin: theme.spacing.unit * 2,
-    backgroundColor: "#D8D84B"
+    backgroundColor: "#D8D84B",
+    wordWrap: "break-word",
+    padding: theme.spacing.unit * 2
   },
   footer: {
     marginTop: theme.spacing.unit * 5
@@ -136,8 +142,11 @@ const mapSection = (
 };
 
 const Passage = ({ classes }) => {
-  const [bookmark, setBookmark] = useState(0);
-  const [recaptchaValue, setRecaptchaValue] = useState("");
+  const [bookmark, setBookmark] = useState(6);
+  const [recaptchaValue, setRecaptchaValue] = useState(
+    "03AOLTBLRVM2aFHQDDYtSXKLV5z2fNrzHOIIb2t6o9t3eR6f3Oa0jpP6kQ70nvAFP5XjfGVMxiseYNcQRuxuQRcCUu1c37lnN0lenhj1oWSxQ9RMVACIjkxdBlGxfJ-3Oudy7ZX_YKU77xjlzaLC9VSZKFSrV_c_x1cC_P_uy4ocCVSdzJgYrnD4sD4zgMUlEhNwr1clS5elU4OSeJdP0qXVj02-AXouMlbVY6iNNQ7b9y1sGgSsw6YHembIfUuxxaeruOjMrJu5sIGvFRzr6qQqnxDkBIy_mFnaH52ew5z07kMSGJPo6boPrCnllANLNpPG5ZiH9o8wen"
+  );
+  const [copyToClipboardMessage, setCopyToClipboardMessage] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
@@ -148,8 +157,22 @@ const Passage = ({ classes }) => {
     setBookmark(bookmark + 1);
   };
 
-  // const showMore = bookmark !== SECTIONS.length - 1 && !recaptcha;
-  const showMore = bookmark !== SECTIONS.length - 1;
+  const copyToClipboard = async () => {
+    try {
+      const { state } = await navigator.permissions.query({
+        name: "clipboard-write"
+      });
+      if (state === "granted" || state === "prompt") {
+        await navigator.clipboard.writeText(recaptchaValue);
+        setCopyToClipboardMessage("Copied");
+      }
+    } catch (e) {
+      setCopyToClipboardMessage("Failed to copy. Please copy manually.");
+    }
+  };
+
+  const showMore =
+    bookmark !== SECTIONS.length - 1 && !SECTIONS[bookmark].recaptcha;
 
   return (
     <div className={classes.root}>
@@ -183,13 +206,34 @@ const Passage = ({ classes }) => {
                       onChange={handleRecaptcha}
                     />
                   </div>,
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    className={classes.parchment}
+                  <Grid
+                    container
+                    spacing={8}
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
                   >
-                    {recaptchaValue}
-                  </Typography>
+                    <Grid item xs={10}>
+                      <Typography
+                        variant="body2"
+                        align="center"
+                        className={classes.parchment}
+                      >
+                        {recaptchaValue}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Tooltip
+                        title="Copy to Clipboard"
+                        aria-label="Copy to Clipboard"
+                      >
+                        <IconButton onClick={copyToClipboard}>
+                          <CopyIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Typography>{copyToClipboardMessage}</Typography>
+                    </Grid>
+                  </Grid>
                 )
               )}
               {showMore && (
