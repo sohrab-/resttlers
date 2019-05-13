@@ -38,6 +38,11 @@ const styles = theme => ({
     marginRight: theme.spacing.unit * 2,
     float: "right"
   },
+  counter: {
+    marginTop: 0,
+    marginLeft: theme.spacing.unit * 2,
+    float: "left"
+  },
   sortSelectText: {
     fontSize: "small"
   },
@@ -53,8 +58,16 @@ const Board = ({ classes, search, settlements }) => {
   const [sort, setSort] = useState("creationTime");
   const [pinned, setPinned] = useState("");
 
+  const displaySettlements = settlements
+    .filter(filterSettlement(search))
+    .slice()
+    .sort(sortSettlements(pinned, sort));
+
   return (
     <div>
+      <Typography className={classes.counter}>
+        {displaySettlements.length} Settlements
+      </Typography>
       <Select
         className={classes.sortSelect}
         value={sort}
@@ -79,25 +92,21 @@ const Board = ({ classes, search, settlements }) => {
       </Select>
       <Grid container spacing={24}>
         {settlements.length > 0 ? (
-          settlements
-            .filter(filterSettlement(search))
-            .slice()
-            .sort(sortSettlements(pinned, sort))
-            .map(settlement => {
-              const { id, ...others } = settlement;
-              return (
-                <Grid item xs={12} md={6} lg={4} key={id}>
-                  <Settlement
-                    settlementId={id}
-                    {...others}
-                    pinned={id === pinned}
-                    onPin={id => {
-                      setPinned(id);
-                    }}
-                  />
-                </Grid>
-              );
-            })
+          displaySettlements.map(settlement => {
+            const { id, ...others } = settlement;
+            return (
+              <Grid item xs={12} md={6} lg={4} key={id}>
+                <Settlement
+                  settlementId={id}
+                  {...others}
+                  pinned={id === pinned}
+                  onPin={id => {
+                    setPinned(id);
+                  }}
+                />
+              </Grid>
+            );
+          })
         ) : (
           <Grid item xs={12} className={classes.empty}>
             <Typography variant="h6" className={classes.emptyText}>

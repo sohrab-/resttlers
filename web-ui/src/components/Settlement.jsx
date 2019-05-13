@@ -102,7 +102,7 @@ const Settlement = ({
         </div>
         <Divider />
         <div className={classes.section}>
-          {allBuildings ? (
+          {allBuildings.length > 0 ? (
             allBuildings.map((building, index) => (
               <Building {...building} key={`building-${index}`} />
             ))
