@@ -18,7 +18,6 @@ const FIRESTORE_SETTLEMENTS_COLLECTION =
 
 const logger = pino({ level: LOG_LEVEL });
 
-// TODO support other persistence layers
 const store = new FirestoreStore({
   projectId: GOOGLE_CLOUD_PROJECT,
   settlementsCollectionName: FIRESTORE_SETTLEMENTS_COLLECTION

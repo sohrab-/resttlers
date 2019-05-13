@@ -9,7 +9,3 @@ export const startingResources = {
 export const wildcards = {
   "<food>": ["fish", "meat", "bread"]
 };
-
-export default {
-  // TODO
-};

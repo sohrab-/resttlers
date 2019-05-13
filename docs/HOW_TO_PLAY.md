@@ -51,7 +51,7 @@ Translates to the following in Postman:
 
 You are a tribe of settlers, looking for a new home. You have set out from to cross perilous plains to reach a suitable plot fo land to start your very first settlement.
 
-While making the passage, you run into some trouble. Go to <https://resttlers.appspot.com/ui/passage> to find out more.
+While making the passage, you run into some trouble. Go to <https://resttlers.appspot.com/passage> to find out more.
 
 ## Build a settlement
 

@@ -1,6 +1,5 @@
 import Firestore from "@google-cloud/firestore";
 
-// TODO remove building type
 export default class FirestoreStore {
   constructor({ projectId, settlementsCollectionName }) {
     this.db = new Firestore({ projectId });

@@ -96,7 +96,6 @@ export default class SettlementService {
     const id = await this.store.createSettlement(settlement, num =>
       this.hashids.encode(num)
     );
-    // TODO move to after verify
     await this.engineClient.upsertSettlement(id);
     reply.code(201).send({
       ...mapSettlement({ ...settlement, id }),
@@ -176,7 +175,6 @@ export default class SettlementService {
 
   async updateBuilding(request) {
     const status = request.body.status.toLowerCase();
-    console.log(status);
 
     if (status !== "disabled" && status !== "ready") {
       throwError(400, `Invalid status. Acceptable statuses: ready, disabled`);
@@ -213,8 +211,6 @@ export default class SettlementService {
   }
 
   async _updateBuildingStatus(request, status) {
-    // TODO validate status
-
     const building = await this._getBuildingAuthorised(request);
     const { settlementId } = request.params;
 
