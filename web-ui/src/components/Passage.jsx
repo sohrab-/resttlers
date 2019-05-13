@@ -142,10 +142,8 @@ const mapSection = (
 };
 
 const Passage = ({ classes }) => {
-  const [bookmark, setBookmark] = useState(6);
-  const [recaptchaValue, setRecaptchaValue] = useState(
-    "03AOLTBLRVM2aFHQDDYtSXKLV5z2fNrzHOIIb2t6o9t3eR6f3Oa0jpP6kQ70nvAFP5XjfGVMxiseYNcQRuxuQRcCUu1c37lnN0lenhj1oWSxQ9RMVACIjkxdBlGxfJ-3Oudy7ZX_YKU77xjlzaLC9VSZKFSrV_c_x1cC_P_uy4ocCVSdzJgYrnD4sD4zgMUlEhNwr1clS5elU4OSeJdP0qXVj02-AXouMlbVY6iNNQ7b9y1sGgSsw6YHembIfUuxxaeruOjMrJu5sIGvFRzr6qQqnxDkBIy_mFnaH52ew5z07kMSGJPo6boPrCnllANLNpPG5ZiH9o8wen"
-  );
+  const [bookmark, setBookmark] = useState(0);
+  const [recaptchaValue, setRecaptchaValue] = useState("");
   const [copyToClipboardMessage, setCopyToClipboardMessage] = useState("");
 
   useEffect(() => {
