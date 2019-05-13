@@ -13,7 +13,7 @@ export default class FirestoreStore {
     return this.db.runTransaction(async t => {
       // get settlement count
       const metadata = await t.get(this.metadataRef);
-      let count = metadata.data() !== undefined ? metadata.data() : 0;
+      let { count } = metadata.data() || { count: 0 };
 
       // persist
       const id = idFn(count);
