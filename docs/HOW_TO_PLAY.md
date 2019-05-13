@@ -47,9 +47,15 @@ Translates to the following in Postman:
 ![Annotated Postman](images/example-1.png)
 ![Annotated Postman](images/example-2.png)
 
+## Make the passage
+
+You are a tribe of settlers, looking for a new home. You have set out from to cross perilous plains to reach a suitable plot fo land to start your very first settlement.
+
+While making the passage, you run into some trouble. Go to <https://resttlers.appspot.com/ui/passage> to find out more.
+
 ## Build a settlement
 
-You are a tribe of settlers, looking for a new home. You have found a suitable plot of land to start your very first settlement. 
+Now that you have overcame the harsh passage across the barren lands, you have finally reached an oasis. It is time to build your first settlement.
 
 To create a settlement, make the following REST call:
 
@@ -59,7 +65,8 @@ Content-Type: application/json
 
 {
   "name": "<name of the settlement>",
-  "leader": "<your name>"
+  "leader": "<your name>",
+  "incantation: "<the incantation from the parchment>"
 }
 ```
 
@@ -316,7 +323,7 @@ GET https://resttlers.appspot.com/api/settlements/<id>/buildingTypes
 GET https://resttlers.appspot.com/api/settlements/<id>/resources
 ```
 
-**Oh by the way, if you are getting bored `GET`ing the status of your settlement, there is always <https://resttlers.appspot.com/ui/>.**
+**Oh by the way, if you are getting bored `GET`ing the status of your settlement, there is always <https://resttlers.appspot.com/>.**
 
 Play on
 ---
