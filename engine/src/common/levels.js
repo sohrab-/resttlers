@@ -46,12 +46,14 @@ export default [
       hasBuildingOfType(settlement, buildingTypes.bakery),
     points: 10,
     buildingRewards: [
+      buildingTypes.hunter,
+      buildingTypes.fishery,
       buildingTypes.coalMine,
       buildingTypes.goldMine,
       buildingTypes.goldSmelting,
       buildingTypes.goldMint
     ],
-    resourceRewards: ["coal", "goldOre", "goldBar", "goldCoin"]
+    resourceRewards: ["meat", "fish", "coal", "goldOre", "goldBar", "goldCoin"]
   },
   {
     id: 3,
