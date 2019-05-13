@@ -6,7 +6,7 @@ export const logHttpError = (backend, logger) => e => {
       )}`
     );
   } else if (e.request) {
-    logger.error("No HTTP response from ${backend}");
+    logger.error(`No HTTP response from ${backend}`);
   } else {
     logger.error(`Unexpected error when invoking ${backend}: ${e.message}`);
   }

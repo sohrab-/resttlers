@@ -10,6 +10,7 @@ export default class Game {
 
     this.store.getSettlements().then(settlements => {
       this.settlements = settlements.reduce((accum, settlement) => {
+        // eslint-disable-next-line no-param-reassign
         accum[settlement.id] = new Settlement(settlement);
         return accum;
       }, {});

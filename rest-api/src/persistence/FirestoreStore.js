@@ -13,7 +13,7 @@ export default class FirestoreStore {
     return this.db.runTransaction(async t => {
       // get settlement count
       const metadata = await t.get(this.metadataRef);
-      let { count } = metadata.data() || { count: 0 };
+      const { count } = metadata.data() || { count: 0 };
 
       // persist
       const id = idFn(count);
@@ -49,9 +49,11 @@ export default class FirestoreStore {
     ref = ref.orderBy(sortBy, sortDirection);
 
     if (startAfter) {
-      const startAfter = await this.settlementsCollection.doc(startAfter).get();
-      if (!startAfter.empty) {
-        ref = ref.startAt(startAfter);
+      const startAfterDoc = await this.settlementsCollection
+        .doc(startAfter)
+        .get();
+      if (!startAfterDoc.empty) {
+        ref = ref.startAt(startAfterDoc);
       }
     }
 

@@ -28,6 +28,7 @@ export default class EngineClient {
       return response.data.success;
     } catch (e) {
       this.logError(e);
+      throw e;
     }
   }
 }

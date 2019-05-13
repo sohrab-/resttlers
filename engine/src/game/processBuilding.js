@@ -26,13 +26,13 @@ export default function processBuilding(state, resources) {
         state.productionTimestamp = null;
 
         return true;
-      } else {
-        // keep working
-        return false;
       }
 
+      // keep working
+      return false;
+
     case "ready":
-    case "waiting":
+    case "waiting": {
       const missing = missingResources(consumes, resources);
 
       if (missing.length === 0) {
@@ -54,6 +54,7 @@ export default function processBuilding(state, resources) {
 
         return true;
       }
+    }
 
     default:
       return false; // ???

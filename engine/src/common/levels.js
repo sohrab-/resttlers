@@ -18,7 +18,7 @@ export default [
       buildingTypes.forester
     ],
     // set by the starting resources
-    resourceRewards: [] //["stoneDeposit", "tree", "stone", "lumber", "plank"]
+    resourceRewards: [] // ["stoneDeposit", "tree", "stone", "lumber", "plank"]
   },
   {
     id: 1,
@@ -71,7 +71,7 @@ export default [
   {
     id: 4,
     objective: "Produce 20 Gold Coins",
-    objectiveMet: settlement => settlement.resources["goldCoin"] >= 20,
+    objectiveMet: settlement => settlement.resources.goldCoin >= 20,
     points: 10,
     buildingRewards: [],
     resourceRewards: []

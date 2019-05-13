@@ -14,6 +14,7 @@ export default class EngineClient {
       });
     } catch (e) {
       this.logError(e);
+      throw e;
     }
   }
 
@@ -22,6 +23,7 @@ export default class EngineClient {
       return await axios.delete(`${this.httpBaseUrl}/settlements/${id}`);
     } catch (e) {
       this.logError(e);
+      throw e;
     }
   }
 }

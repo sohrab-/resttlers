@@ -143,21 +143,32 @@ export default class SettlementService {
   }
 
   async createBuilding(request, reply) {
+    // validate
     const { type: typeId } = request.body;
     const type = buildingTypes[typeId];
     if (!type) {
       throwError(400, `Building type [${typeId}] not found`);
     }
 
-    const settlement = await this._getSettlementAuthorised(request);
+    const {
+      id: settlementId,
+      buildingTypes: unlockedTypes,
+      buildings,
+      buildQueue
+    } = await this._getSettlementAuthorised(request);
 
-    const buildingId = new Hashids(settlement.id, 5).encode(
-      Object.keys(settlement.buildings).length + settlement.buildQueue.length
+    if (!unlockedTypes.includes(typeId)) {
+      throwError(400, `Building type [${typeId}] not found`);
+    }
+
+    // create building
+    const buildingId = new Hashids(settlementId, 5).encode(
+      Object.keys(buildings).length + buildQueue.length
     );
     const building = { id: buildingId, type: typeId, status: "buildQueued" };
 
-    await this.store.addToBuildQueue(settlement.id, { building });
-    await this.engineClient.upsertSettlement(settlement.id);
+    await this.store.addToBuildQueue(settlementId, { building });
+    await this.engineClient.upsertSettlement(settlementId);
 
     reply.code(202).send(mapBuilding(building));
   }

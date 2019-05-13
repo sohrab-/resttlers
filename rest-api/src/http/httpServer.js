@@ -1,4 +1,3 @@
-import fs from "fs";
 import path from "path";
 import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
