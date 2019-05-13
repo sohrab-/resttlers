@@ -7,7 +7,7 @@ import Grey from "@material-ui/core/colors/grey";
 import Green from "@material-ui/core/colors/green";
 import Blue from "@material-ui/core/colors/blue";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import { buildingTypes } from "@resttlers/engine";
+import { buildingTypes, resourceWildcards } from "@resttlers/engine";
 
 import ResourceIcon from "./ResourceIcon";
 
@@ -69,9 +69,17 @@ const BuildingTooltip = ({
       <br />
       <br />
       {consumes &&
-        Object.keys(consumes).map(resource => (
-          <ResourceIcon name={resource} key={resource} />
-        ))}
+        Object.keys(consumes)
+          .map(resource =>
+            resource.startsWith("<") ? (
+              resourceWildcards[resource].map(r => (
+                <ResourceIcon name={r} key={r} />
+              ))
+            ) : (
+              <ResourceIcon name={resource} key={resource} />
+            )
+          )
+          .flat()}
       <ArrowRightIcon />
       {Object.keys(produces).map(resource => (
         <ResourceIcon name={resource} key={resource} />
