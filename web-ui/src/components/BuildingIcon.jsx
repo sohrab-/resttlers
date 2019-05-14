@@ -29,6 +29,9 @@ const styles = theme => ({
   },
   disabled: {
     filter: "drop-shadow(0 0 10px red)"
+  },
+  toBeDemolished: {
+    filter: "saturate(4)"
   }
 });
 

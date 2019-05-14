@@ -18,7 +18,8 @@ const BUILDING_STATUS_DISPLAYS = {
   ready: "Ready",
   working: "Working",
   waiting: "Waiting",
-  disabled: "Disabled"
+  disabled: "Disabled",
+  toBeDemolished: "To Be Demolished"
 };
 
 const styles = theme => ({
@@ -42,6 +43,9 @@ const styles = theme => ({
   },
   disabled: {
     color: Red[500]
+  },
+  toBeDemolished: {
+    color: Red[800]
   },
   statusReason: {
     color: Yellow[500]
