@@ -2,24 +2,16 @@ import Hashids from "hashids";
 import uuid from "uuid/v4";
 import moment from "moment";
 import BadWords from "bad-words";
-import { buildingTypes } from "@resttlers/engine";
+import { buildingTypes, levels } from "@resttlers/engine";
 
 import { throwError } from "../http/error";
 
-const mapSettlement = ({
+const mapSettlement = ({ id, name, leader, level, score, createdAt }) => ({
   id,
   name,
   leader,
   level,
-  objective,
-  score,
-  createdAt
-}) => ({
-  id,
-  name,
-  leader,
-  level,
-  objective,
+  objective: levels[level].objective,
   score,
   createdAt: moment(createdAt).format()
 });
