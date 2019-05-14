@@ -27,6 +27,7 @@ export default class Settlement {
         visible: true,
         level: 0,
         score: 0,
+        buildingIdSeed: 0,
         resources: startingResources,
         buildingTypes: [],
         buildings: {},

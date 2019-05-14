@@ -68,17 +68,26 @@ export default class FirestoreStore {
   }
 
   async deleteSettlement(id) {
-    return this.db.runTransaction(async t => {
-      t.delete(this.settlementsCollection.doc(id));
-      t.update(this.metadataRef, {
-        count: Firestore.FieldValue.decrement(1)
-      });
-    });
+    return settlementsCollection.doc(id).delete();
   }
 
-  async addToBuildQueue(settlementId, item) {
-    return this.settlementsCollection.doc(settlementId).update({
-      buildQueue: Firestore.FieldValue.arrayUnion(item)
+  async addToBuildQueue(settlementId, building, idFn) {
+    return this.db.runTransaction(async t => {
+      const settlementDoc = this.settlementsCollection.doc(settlementId);
+      // get building id seed
+      const settlement = await t.get(settlementDoc);
+      const { buildingIdSeed } = settlement.data();
+
+      // persist
+      const id = idFn(buildingIdSeed);
+      t.update(settlementDoc, {
+        buildQueue: Firestore.FieldValue.arrayUnion({
+          building: { ...building, id }
+        }),
+        buildingIdSeed: Firestore.FieldValue.increment(1)
+      });
+
+      return id;
     });
   }
 

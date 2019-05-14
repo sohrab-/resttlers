@@ -154,15 +154,14 @@ export default class SettlementService {
     }
 
     // create building
-    const buildingId = new Hashids(settlementId, 5).encode(
-      Object.keys(buildings).length + buildQueue.length
-    );
-    const building = { id: buildingId, type: typeId, status: "buildQueued" };
+    const building = { type: typeId, status: "buildQueued" };
 
-    await this.store.addToBuildQueue(settlementId, { building });
+    const id = await this.store.addToBuildQueue(settlementId, building, num =>
+      new Hashids(settlementId, 5).encode(num)
+    );
     await this.engineClient.upsertSettlement(settlementId);
 
-    reply.code(202).send(mapBuilding(building));
+    reply.code(202).send(mapBuilding({ ...building, id }));
   }
 
   async getBuildings(request) {
