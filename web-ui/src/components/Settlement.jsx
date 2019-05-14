@@ -69,6 +69,7 @@ const Settlement = ({
           <Tooltip
             title={`ID: ${settlementId}`}
             aria-label={`ID: ${settlementId}`}
+            interactive
           >
             <Badge
               badgeContent={level}

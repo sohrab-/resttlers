@@ -31,6 +31,7 @@ const styles = theme => ({});
 
 const Building = ({ classes, id, type, status, missingResources }) => (
   <Tooltip
+    interactive
     title={
       <BuildingTooltip
         id={id}
