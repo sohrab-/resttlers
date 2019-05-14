@@ -19,8 +19,9 @@ push:
 deploy:
 	gcloud app deploy app.engine.yaml --image-url=gcr.io/resttlers/engine --quiet & \
 	gcloud app deploy app.rest-api.yaml --image-url=gcr.io/resttlers/rest-api --quiet & \
-	gcloud app deploy app.web-ui.yaml --image-url=gcr.io/resttlers/web-ui --quiet & \
 	wait
+	gcloud app deploy app.web-ui.yaml --image-url=gcr.io/resttlers/web-ui --quiet
+	
 
 update-routing:
 	gcloud app deploy dispatch.yaml
