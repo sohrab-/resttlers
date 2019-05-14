@@ -165,10 +165,20 @@ export default class SettlementService {
   }
 
   async getBuildings(request) {
+    const { type, status } = request.query;
     const settlement = await this._getSettlement(request);
 
     const items = Object.values(settlement.buildings)
       .concat(settlement.buildQueue.map(item => item.building))
+      .filter(building =>
+        type && status
+          ? building.type === type && building.status === status
+          : type
+          ? building.type === type
+          : status
+          ? building.status === status
+          : true
+      )
       .map(mapBuilding);
     return { size: items.length, items };
   }
