@@ -29,10 +29,11 @@ export const sortBuilding = (a, b) => BUILDING_ORDER[a] - BUILDING_ORDER[b];
 
 const styles = theme => ({});
 
-const Building = ({ classes, type, status, missingResources }) => (
+const Building = ({ classes, id, type, status, missingResources }) => (
   <Tooltip
     title={
       <BuildingTooltip
+        id={id}
         type={type}
         status={status}
         missingResources={missingResources}
@@ -47,6 +48,7 @@ const Building = ({ classes, type, status, missingResources }) => (
 
 Building.propTypes = {
   classes: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   missingResources: PropTypes.arrayOf(PropTypes.string)

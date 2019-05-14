@@ -19,7 +19,8 @@ const BACKGROUND_OFFSET = {
   coal: [10, 0],
   goldOre: [2, 2],
   goldBar: [3, 2],
-  goldCoin: [4, 2]
+  goldCoin: [4, 2],
+  nothing: [10, 11]
 };
 
 const styles = {
