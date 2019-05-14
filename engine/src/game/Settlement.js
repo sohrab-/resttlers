@@ -81,7 +81,11 @@ export default class Settlement {
       }
 
       // resource production
+      const goldCoinsBefore = this.state.resources.goldCoin || 0;
       if (processBuilding(building, this.state.resources)) {
+        // TODO we need a more versatile scoring system
+        this.state.score +=
+          (this.state.resources.goldCoin || 0) - goldCoinsBefore;
         updated = true;
       }
     });
