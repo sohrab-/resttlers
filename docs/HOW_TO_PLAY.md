@@ -66,7 +66,7 @@ Content-Type: application/json
 {
   "name": "<name of the settlement>",
   "leader": "<your name>",
-  "incantation: "<the incantation from the parchment>"
+  "incantation": "<the incantation from the parchment>"
 }
 ```
 

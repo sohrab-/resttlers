@@ -63,7 +63,7 @@ const SECTIONS = [
   },
   {
     text: [
-      "As you survey the land, your scouts bring back news of a curious of wall of fire that blocks the caravan's path and extends in both directions for days.",
+      "As you survey the land, your scouts bring back news of a curious wall of fire that blocks the caravan's path and extends in both directions for days.",
       "As the leader of your clan, you ride ahead to inspect this new obstacle.",
       "Your scouts were certainly not exaggerating. You unmount to have closer look."
     ]
