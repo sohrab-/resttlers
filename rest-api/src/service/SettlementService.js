@@ -11,7 +11,7 @@ const mapSettlement = ({ id, name, leader, level, score, createdAt }) => ({
   name,
   leader,
   level,
-  objective: levels[level].objective,
+  objective: level && levels[level].objective,
   score,
   createdAt: moment(createdAt).format()
 });
@@ -144,9 +144,7 @@ export default class SettlementService {
 
     const {
       id: settlementId,
-      buildingTypes: unlockedTypes,
-      buildings,
-      buildQueue
+      buildingTypes: unlockedTypes
     } = await this._getSettlementAuthorised(request);
 
     if (!unlockedTypes.includes(typeId)) {
