@@ -8,4 +8,4 @@ service: rest-api
 
 env_variables:
   ENGINE_HTTP_BASE_URL: http://engine.resttlers.appspot.com
-  RECAPTCHA_SECRET: <your recaptcha secret key>
+  RECAPTCHA_SECRET: 6LeN86IUAAAAAOULXph6wl-0-b3R0x77ZruGG0Wy
